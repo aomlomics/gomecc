@@ -6,7 +6,6 @@ Files associated with [brief study title]. A study examining [goal of study].
 
 The structure of this repository is:
 
-* markdown – study questions, sample descriptions, analysis notes, and results
 * figures – pre-publication versions of figures
 * metadata – sample data and other metadata, prepared in standard format for database submission
 * code – scripts and/or Jupyter notebooks for data analysis and figure generation
