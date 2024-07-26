@@ -8,10 +8,10 @@ This repository has QIIME 2 compatible files, metadata, R markdown files, and al
 * [Preprint](add link)
 
 ### 1. Summary
-Ocean acidification and warming threaten marine life, either directly or indirectly, which can lead to loss of biodiversity and negative impacts for marine ecosystems. The effects of carbonate chemistry parameters and temperature on diverse marine microbes remains unclear. Yet, it is important to consider microbes because they form the base of ocean food webs, mediate global carbon and nutrient cycles, and are potential indicators of environmental change. In large part, this disconnect is rooted in a lack of spatial sampling of microbes and environmental variables in many ocean basins, including the Gulf of Mexico (GOM). In this study, we collected DNA samples at the basin scale in the GOM as part of the fourth Gulf of Mexico Ecosystems and Carbon Cruise (GOMECC-4) that sailed in the summer-fall of 2021. DNA samples were collected at 51 sites along 16 inshore-offshore transects and up to three depths per site that reflected the surface, deep chlorophyll maximum, and near bottom (481 total filters). DNA metabarcoding captured prokaryotes (16S V4-V5) and protists (18S V9) at previously unresolved spatial scales. Generalized linear models were used to reveal the effects of carbonate chemistry parameters, temperature, and other environmetnal variables on group-specific relative abundance in the photic zone. Models supported prior physiological trends among certain microbes, like positive temperature effects on SAR11 and SAR86, as well as a negative response of *Prochlorococcus* to lower pH. New insights were observed for Syndiniales and Sagenista, ubiquitous protists that represent parasitic and herbivorous lifestyles. At the species level, picoeukaryotes like *Ostreococcus* sp. and *Gephyrocapsa huxleyi* were found to be indicator taxa of less buffered waters in the GOM at this time.
+Ocean acidification and warming threaten marine life, either directly or indirectly, which can lead to loss of biodiversity and negative impacts for marine ecosystems. The effects of carbonate chemistry parameters and temperature on diverse marine microbes remains unclear. Yet, it is important to consider microbes because they form the base of ocean food webs, mediate global carbon and nutrient cycles, and are potential indicators of environmental change. In large part, this disconnect is rooted in a lack of spatial sampling of microbes and environmental variables in many ocean basins, including the Gulf of Mexico (GOM). In this study, we collected DNA samples at the basin scale in the GOM as part of the fourth Gulf of Mexico Ecosystems and Carbon Cruise (GOMECC-4) that sailed in the summer-fall of 2021. DNA samples were collected at 51 sites along 16 inshore-offshore transects and up to three depths per site that reflected the surface, deep chlorophyll maximum, and near bottom (481 total filters). DNA metabarcoding captured prokaryotes (16S V4-V5) and protists (18S V9) at previously unresolved spatial scales. Generalized linear models were used to reveal the effects of carbonate chemistry parameters, temperature, and other variables on group-specific relative abundance in the photic zone. Models supported prior physiological trends among certain microbes, like positive temperature effects on SAR11 and SAR86, as well as a negative response of *Prochlorococcus* to lower pH. New insights were observed for Syndiniales and Sagenista, ubiquitous protists that represent parasitic and herbivorous lifestyles. At the species level, picoeukaryotes like *Ostreococcus* sp. and *Gephyrocapsa huxleyi* were found to be indicator taxa of less buffered waters in the GOM at this time.
 
 ### 2. Bioinformatics
-Code for 16S and 18S datasets are available in `/data-proc/`.
+Code for 16S and 18S datasets are available in the `code` folder.
 * 16S and 18S amplicons processed separately
 * Remove primers with Cutadapt
 * Process reads with [Tourmaline](https://github.com/aomlomics/tourmaline)
@@ -19,29 +19,21 @@ Code for 16S and 18S datasets are available in `/data-proc/`.
 * Taxonomy assigned for 16S using SILVA (Version 138.1) and 18S with the PR2 database (Version 5.0.1)
 
 ### 3. R data analysis and visualization
-Code is available as markdown files for [16S] (add link) and [18S] (add link) datasets. Raw markdown files are also in `/data-viz/`.
+Code is available as markdown files for [16S] (add link) and [18S] (add link) datasets. Raw markdown files are also in the `code` folder.
 * QIIME 2 files uploaded to R using [qiime2R](https://github.com/jbisanz/qiime2R)
-* Hierarchical clustering of microbial composition performed to resolve spatial patterns
+* Hierarchical clustering of microbial composition to resolve spatial patterns
 * Population dynamics observed in each cluster with stacked bar plots, PCoA plots, and diversity plots (richness and Shannon index)
 * Generalized linear models (GLMs) constructed for major microbial groups (class level 18S; order level 16S) using relative abundances and non-collinear variables
 * Models focused on the photic zone to mitigate collinearity
 * Final GLMs applied to all GOMECC-4 sites to expand microbial distributions at the surface; plots made in [Ocean Data View](https://odv.awi.de/)
-* ODV plots in `/odv/`.
+* ODV plots in the `odv-plots` folder.
 * Indicator analysis performed to reveal ASVs indicative of less buffered surface waters (via TA:DIC ratio) using [indicspecies](https://emf-creaf.github.io/indicspecies/)
-* All other input files necessary for analyses are in `/data-input/`.
+* All other input files necessary for analyses are in the `data-input` folder.
 
 ### 4. Links to associated data
 * Raw sequence data for this project are available in NCBI SRA under Bioproject PRJNA887898
 * Observation data (counts) been published on the Ocean Biodiversity Information System (OBIS) and the Global Biodiversity Information Facility [(GBIF)](https://www.gbif.org/dataset/9012def0-bd87-48a0-ac9e-e0e78dd37689)
 * Data has also been submitted to the National Centers for Environmental Information [(NCEI)](https://www.ncei.noaa.gov/archive/accession/0250940/data/0-data/noaa-aoml-gomecc)
+* Tourmaline output files and taxonomy reference database files have been archived on [Zenodo](link)
 
 **This research is supported by the NOAA Ocean Acidification Program (project numbers 21392 and 20708) and awards NA16OAR4320199 and NA21OAR4320190 to the Northern Gulf Institute from NOAA’s Office of Oceanic and Atmospheric Research, U.S. Department of Commerce.**
-
-
-(Discuss folder structure)
-The structure of this repository is:
-
-* code – scripts and/or Jupyter notebooks for data analysis and figure generation
-* figures – pre-publication versions of figures
-* metadata – sample data and other metadata, prepared in standard format for database submission
-* tourmaline – config, manifest, and metadata files for [Tourmaline](https://github.com/aomlomics/tourmaline) runs, plus links to full Tourmaline output on Zenodo
