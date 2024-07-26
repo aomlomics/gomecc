@@ -1,0 +1,365 @@
+﻿OTU ,stat,pvalue,OA,Phylum,Genus,Species,Abundance
+bASV34469,0.602,0.001,High,Proteobacteria,SAR116_clade,marine_metagenome,0.915412124
+bASV25500,0.594,0.001,High,Proteobacteria,SAR116_clade,uncultured_alpha,0.211618314
+bASV39694,0.568,0.001,Low,Proteobacteria,AEGEAN-169_marine_group,Unknown AEGEAN-169_marine_group (Genus),0.444805413
+bASV38618,0.547,0.001,High,Proteobacteria,SAR86_clade,uncultured_bacterium,1.044715373
+bASV2782,0.536,0.001,High,Proteobacteria,AEGEAN-169_marine_group,metagenome,1.559184532
+bASV56004,0.526,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.940529895
+bASV19985,0.52,0.001,High,Proteobacteria,S25-593,Unknown S25-593 (Genus),0.314283493
+bASV15407,0.52,0.001,High,Proteobacteria,SAR86_clade,Unknown SAR86_clade (Genus),0.635426575
+bASV64330,0.518,0.001,High,Actinobacteriota,Candidatus_Actinomarina,Unknown Candidatus_Actinomarina (Genus),1.638298456
+bASV7300,0.514,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),10.24946135
+bASV33394,0.511,0.001,High,Proteobacteria,SAR86_clade,marine_metagenome,0.522014707
+bASV59407,0.506,0.001,High,Cyanobacteria,Prochlorococcus_MIT9313,Unknown Prochlorococcus_MIT9313 (Genus),11.2177142
+bASV36177,0.498,0.001,High,Proteobacteria,KI89A_clade,uncultured_marine,0.174004902
+bASV26955,0.489,0.001,Low,Proteobacteria,Unknown Clade_I (Family),Unknown Clade_I (Family),0.43239126
+bASV51551,0.481,0.001,High,Proteobacteria,Clade_III,marine_metagenome,0.347552499
+bASV57209,0.48,0.001,High,Proteobacteria,uncultured,Unknown uncultured (Genus),0.496748555
+bASV63192,0.472,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.804401112
+bASV14844,0.472,0.001,High,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.705051401
+bASV861,0.469,0.001,High,Proteobacteria,SAR86_clade,Rhodobacteraceae_bacterium,0.260321395
+bASV50572,0.457,0.001,High,Proteobacteria,AEGEAN-169_marine_group,Unknown AEGEAN-169_marine_group (Genus),0.206702276
+bASV20831,0.455,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_marine,0.355171021
+bASV23197,0.454,0.001,Low,Actinobacteriota,Sva0996_marine_group,uncultured_marine,0.188316388
+bASV23115,0.452,0.001,High,Proteobacteria,Clade_IV,uncultured_bacterium,0.608788505
+bASV46867,0.452,0.001,Low,Proteobacteria,HOC36,Unknown HOC36 (Genus),0.404617223
+bASV7705,0.449,0.001,High,Proteobacteria,SAR92_clade,uncultured_bacterium,0.116727336
+bASV5199,0.447,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.384022646
+bASV37663,0.444,0.001,Low,Proteobacteria,Unknown Clade_I (Family),Unknown Clade_I (Family),0.23145031
+bASV44906,0.44,0.001,High,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),1.061292712
+bASV16174,0.437,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),5.217746214
+bASV64489,0.432,0.001,High,Proteobacteria,Clade_II,uncultured_marine,0.150453647
+bASV54460,0.428,0.001,High,Proteobacteria,SAR86_clade,marine_metagenome,0.108038523
+bASV226,0.428,0.001,High,Proteobacteria,SAR116_clade,Unknown SAR116_clade (Genus),0.487030804
+bASV54629,0.426,0.001,High,Bacteroidota,NS9_marine_group,uncultured_bacterium,0.134104961
+bASV63182,0.424,0.001,Low,Actinobacteriota,Sva0996_marine_group,Unknown Sva0996_marine_group (Genus),0.182845745
+bASV10486,0.417,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.239285322
+bASV24327,0.416,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.151139606
+bASV15747,0.416,0.001,Low,Proteobacteria,Pseudohongiella,Unknown Pseudohongiella (Genus),0.114252289
+bASV5372,0.415,0.001,High,Proteobacteria,SAR86_clade,uncultured_bacterium,0.098549426
+bASV35656,0.415,0.001,Low,Actinobacteriota,Candidatus_Actinomarina,Unknown Candidatus_Actinomarina (Genus),1.294648869
+bASV39737,0.411,0.001,High,Proteobacteria,uncultured,uncultured_marine,0.156627277
+bASV53062,0.409,0.001,High,Bacteroidota,Marinoscillum,Unknown Marinoscillum (Genus),0.112954562
+bASV49874,0.408,0.001,High,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.312568596
+bASV57491,0.404,0.001,Low,Proteobacteria,uncultured,marine_metagenome,0.115725155
+bASV22910,0.401,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.07027673
+bASV32420,0.397,0.001,Low,Proteobacteria,SAR86_clade,Unknown SAR86_clade (Genus),0.12750808
+bASV1863,0.396,0.001,High,Others,SAR324_clade(Marine_group_B),uncultured_marine,0.206016317
+bASV44663,0.391,0.001,High,Proteobacteria,AEGEAN-169_marine_group,unidentified_marine,0.091118204
+bASV57336,0.391,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.085215796
+bASV49524,0.39,0.001,Low,Proteobacteria,Woeseia,marine_metagenome,0.096367493
+bASV56818,0.389,0.001,High,Proteobacteria,uncultured,Unknown uncultured (Genus),0.191268201
+bASV16332,0.389,0.001,High,Proteobacteria,SAR86_clade,uncultured_SAR86,0.146680874
+bASV47158,0.387,0.001,Low,Bacteroidota,NS4_marine_group,Unknown NS4_marine_group (Genus),0.186212295
+bASV6522,0.386,0.001,Low,Proteobacteria,SUP05_cluster,Unknown SUP05_cluster (Genus),0.445015823
+bASV55335,0.385,0.001,Low,Proteobacteria,HOC36,marine_metagenome,0.55316624
+bASV330,0.385,0.001,Low,Crenarchaeota,Candidatus_Nitrosopelagicus,marine_metagenome,0.684461689
+bASV7977,0.383,0.001,High,Proteobacteria,OM60(NOR5)_clade,uncultured_Haliea,0.127931331
+bASV64418,0.383,0.001,High,Bacteroidota,NS4_marine_group,uncultured_bacterium,0.073511927
+bASV44319,0.38,0.001,Low,Others,Marine_Group_II,metagenome,0.150232292
+bASV34171,0.379,0.001,Low,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.447540735
+bASV20352,0.375,0.001,High,Others,MB11C04_marine_group,Unknown MB11C04_marine_group (Genus),0.177434697
+bASV13884,0.375,0.001,High,Bacteroidota,uncultured,uncultured_marine,0.04515896
+bASV5042,0.373,0.001,High,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),1.388266445
+bASV35455,0.373,0.001,High,Bacteroidota,NS9_marine_group,uncultured_Flavobacteriia,0.08768841
+bASV568,0.372,0.001,High,Proteobacteria,SAR86_clade,marine_metagenome,0.328231324
+bASV8852,0.37,0.001,High,Others,Urania-1B-19_marine_sediment_group,uncultured_bacterium,0.167602619
+bASV3765,0.369,0.001,Low,Crenarchaeota,Candidatus_Nitrosopumilus,Unknown Candidatus_Nitrosopumilus (Genus),1.102545112
+bASV53318,0.365,0.001,High,Proteobacteria,Litoricola,uncultured_bacterium,0.106437953
+bASV47397,0.365,0.001,Low,Others,Marine_Group_II,uncultured_bacterium,0.212513466
+bASV3819,0.364,0.001,Low,Bacteroidota,NS9_marine_group,Unknown NS9_marine_group (Genus),0.180110423
+bASV61792,0.363,0.001,High,Bacteroidota,NS2b_marine_group,Unknown NS2b_marine_group (Genus),0.104380076
+bASV11961,0.363,0.001,High,Bacteroidota,NS4_marine_group,uncultured_Flavobacteriia,0.047902795
+bASV26915,0.36,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.137191776
+bASV29048,0.358,0.001,Low,Actinobacteriota,Candidatus_Actinomarina,Unknown Candidatus_Actinomarina (Genus),1.717571708
+bASV45849,0.355,0.001,High,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.230825163
+bASV5090,0.353,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.426499798
+bASV57651,0.351,0.001,Low,Others,Marine_Group_II,Marine_group,0.217773701
+bASV19343,0.35,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),1.658762896
+bASV19020,0.348,0.001,Low,Cyanobacteria,Prochlorococcus_MIT9313,Unknown Prochlorococcus_MIT9313 (Genus),0.360431255
+bASV51640,0.347,0.001,Low,Others,SAR324_clade(Marine_group_B),uncultured_SAR324,1.323895772
+bASV28302,0.346,0.001,High,Proteobacteria,SAR86_clade,marine_metagenome,0.09774914
+bASV38839,0.346,0.001,Low,Proteobacteria,UBA10353_marine_group,unidentified_marine,0.07027673
+bASV57962,0.345,0.001,High,Others,R76-B128,uncultured_bacterium,0.070996744
+bASV2543,0.345,0.001,High,Proteobacteria,MWH-UniP1_aquatic_group,marine_metagenome,0.318742226
+bASV32865,0.344,0.001,High,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.684815614
+bASV62614,0.341,0.001,Low,Bacteroidota,NS5_marine_group,Unknown NS5_marine_group (Genus),0.321505521
+bASV59673,0.34,0.001,High,Proteobacteria,SAR116_clade,unidentified_marine,0.079113924
+bASV51620,0.339,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_marine,0.042713103
+bASV36253,0.338,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.559056486
+bASV42763,0.337,0.001,Low,Proteobacteria,Unknown Clade_I (Family),Unknown Clade_I (Family),2.852519863
+bASV29109,0.334,0.001,Low,Others,SAR202_clade,marine_metagenome,0.165171357
+bASV22426,0.332,0.001,High,Bacteroidota,NS5_marine_group,Unknown NS5_marine_group (Genus),0.193097424
+bASV50435,0.331,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.485835241
+bASV31852,0.33,0.001,High,Proteobacteria,SAR116_clade,alpha_proteobacterium,0.164058499
+bASV691,0.33,0.001,Low,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.192945395
+bASV61991,0.33,0.001,Low,Others,OM190,uncultured_marine,0.025038715
+bASV36684,0.33,0.001,Low,Others,Marine_Group_II,unidentified_archaeon,0.19778481
+bASV45475,0.328,0.001,Low,Others,Marine_Group_II,uncultured_archaeon,0.139922233
+bASV33634,0.328,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.232502357
+bASV58460,0.327,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.180741651
+bASV62363,0.326,0.001,High,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Unknown Marinimicrobia_(SAR406_clade) (Genus),0.108038523
+bASV37687,0.325,0.001,High,Proteobacteria,uncultured,Unknown uncultured (Genus),0.101293261
+bASV20058,0.325,0.001,High,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.557341589
+bASV58715,0.325,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),1.035214113
+bASV8268,0.324,0.001,Low,Bacteroidota,NS2b_marine_group,uncultured_marine,0.146865742
+bASV46630,0.323,0.001,High,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.127931331
+bASV20840,0.32,0.001,Low,Bacteroidota,Fluviicola,Unknown Fluviicola (Genus),0.303199906
+bASV34644,0.315,0.001,High,Proteobacteria,uncultured,uncultured_marine,0.084144289
+bASV9869,0.315,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.0403986
+bASV7873,0.313,0.001,Low,Proteobacteria,SAR86_clade,uncultured_bacterium,0.155913345
+bASV31646,0.312,0.001,Low,Proteobacteria,OCS116_clade,Unknown OCS116_clade (Genus),0.192103757
+bASV49903,0.309,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.21798411
+bASV15828,0.308,0.001,High,Proteobacteria,uncultured,uncultured_bacterium,0.022750969
+bASV38494,0.308,0.001,Low,Others,BD2-11_terrestrial_group,uncultured_marine,0.029457312
+bASV4542,0.307,0.001,High,Others,Coraliomargarita,uncultured_Verrucomicrobia,0.113183215
+bASV21661,0.306,0.001,Low,Others,uncultured,uncultured_planctomycete,0.052602343
+bASV52762,0.301,0.001,Low,Cyanobacteria,Cyanobium_PCC-6307,Unknown Cyanobium_PCC-6307 (Genus),0.39556962
+bASV56333,0.3,0.001,High,Proteobacteria,S25-593,uncultured_Alphaproteobacteria,0.140164264
+bASV35759,0.3,0.001,Low,Bacteroidota,Marinoscillum,marine_metagenome,0.215669607
+bASV40299,0.299,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.100154861
+bASV59490,0.298,0.001,High,Proteobacteria,SAR116_clade,uncultured_Oceanibaculum,0.248088461
+bASV44115,0.297,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.069224684
+bASV6434,0.295,0.001,Low,Proteobacteria,OCS116_clade,uncultured_marine,0.110044102
+bASV63151,0.295,0.001,Low,Others,JL-ETNP-F27,Unknown JL-ETNP-F27 (Genus),0.014307837
+bASV49082,0.295,0.001,Low,Proteobacteria,OCS116_clade,Unknown OCS116_clade (Genus),0.105625505
+bASV44046,0.294,0.001,Low,Others,SAR202_clade,marine_metagenome,0.061439537
+bASV18000,0.294,0.001,Low,Others,DEV007,uncultured_marine,0.065647724
+bASV23523,0.292,0.001,Low,Bacteroidota,NS5_marine_group,Unknown NS5_marine_group (Genus),0.873830124
+bASV54102,0.291,0.001,High,Others,R76-B128,Unknown R76-B128 (Genus),0.082543718
+bASV32308,0.291,0.001,High,Proteobacteria,Clade_III,alpha_proteobacterium,0.69533365
+bASV39070,0.291,0.001,Low,Actinobacteriota,Sva0996_marine_group,uncultured_actinobacterium,0.02335544
+bASV28382,0.29,0.001,High,Bacteroidota,Balneola,uncultured_bacterium,0.051904222
+bASV57616,0.289,0.001,High,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.102779505
+bASV45968,0.289,0.001,High,Proteobacteria,SAR116_clade,Unknown SAR116_clade (Genus),0.091232531
+bASV45052,0.289,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),hydrothermal_vent,0.039556962
+bASV59440,0.288,0.001,Low,Crenarchaeota,Candidatus_Nitrosopelagicus,marine_metagenome,0.369058039
+bASV18705,0.286,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.034717546
+bASV8975,0.285,0.001,High,Proteobacteria,Clade_II,uncultured_marine,0.029381905
+bASV29765,0.285,0.001,High,Others,Lentimonas,uncultured_bacterium,0.036012841
+bASV6733,0.284,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Unknown Marinimicrobia_(SAR406_clade) (Genus),0.041871465
+bASV46293,0.284,0.001,Low,Others,Arctic97B-4_marine_group,marine_metagenome,0.128560127
+bASV17378,0.283,0.001,High,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.073168947
+bASV64130,0.281,0.001,High,Proteobacteria,SAR116_clade,alpha_proteobacterium,0.252890173
+bASV8490,0.281,0.001,Low,Others,SAR202_clade,Unknown SAR202_clade (Genus),0.053233571
+bASV53134,0.28,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.048131448
+bASV54663,0.28,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.028405265
+bASV58795,0.278,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.041029828
+bASV38043,0.277,0.001,High,Proteobacteria,AEGEAN-169_marine_group,Unknown AEGEAN-169_marine_group (Genus),0.054190751
+bASV11009,0.277,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),unidentified_marine,0.028826084
+bASV59075,0.275,0.001,High,Proteobacteria,Ga0077536,uncultured_bacterium,0.024580193
+bASV45399,0.275,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_Fibrobacteres/Acidobacteria,0.165171357
+bASV2342,0.275,0.001,Low,Proteobacteria,Unknown Clade_I (Family),Unknown Clade_I (Family),0.058493806
+bASV402,0.274,0.001,Low,Others,Marine_Group_II,uncultured_marine,0.019357662
+bASV5449,0.271,0.001,High,Bacteroidota,NS11-12_marine_group,unidentified_marine,0.090660899
+bASV3834,0.27,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.033034271
+bASV24507,0.268,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Unknown Marinimicrobia_(SAR406_clade) (Genus),0.151073929
+bASV14991,0.268,0.001,Low,Proteobacteria,OM182_clade,Unknown OM182_clade (Genus),0.020620119
+bASV7560,0.267,0.001,High,Bacteroidota,NS9_marine_group,uncultured_marine,0.017034645
+bASV46386,0.267,0.001,High,Proteobacteria,uncultured,unidentified_marine,0.02469452
+bASV20149,0.267,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.11821358
+bASV63597,0.266,0.001,High,Proteobacteria,SAR86_clade,marine_metagenome,0.040700227
+bASV14749,0.266,0.001,High,Others,R76-B128,Unknown R76-B128 (Genus),0.066423685
+bASV9838,0.265,0.001,Low,Proteobacteria,SAR86_clade,uncultured_bacterium,0.92201387
+bASV26478,0.265,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.066068543
+bASV24243,0.265,0.001,Low,Proteobacteria,KI89A_clade,uncultured_bacterium,0.028615675
+bASV13864,0.264,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.105409014
+bASV4599,0.262,0.001,High,Cyanobacteria,Trichodesmium_IMS101,Unknown Trichodesmium_IMS101 (Genus),0.048931733
+bASV3636,0.262,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),6.617795583
+bASV23412,0.26,0.001,Low,Proteobacteria,uncultured,uncultured_marine,0.021461756
+bASV20119,0.26,0.001,Low,Bacteroidota,NS9_marine_group,uncultured_bacterium,0.019568072
+bASV13379,0.26,0.001,Low,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.012624562
+bASV11555,0.26,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.078482696
+bASV36054,0.259,0.001,High,Bacteroidota,NS4_marine_group,uncultured_bacterium,0.05944977
+bASV45972,0.259,0.001,Low,Proteobacteria,Ascidiaceihabitans,uncultured_bacterium,0.128139308
+bASV40348,0.259,0.001,Low,Proteobacteria,SAR86_clade,uncultured_bacterium,0.115935564
+bASV36425,0.258,0.001,Low,Others,SAR202_clade,marine_metagenome,0.051971115
+bASV15554,0.257,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.032240067
+bASV13983,0.257,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.180864491
+bASV38183,0.256,0.001,High,Bacteroidota,NS7_marine_group,uncultured_bacterium,0.069624826
+bASV17673,0.256,0.001,Low,Others,Arctic97B-4_marine_group,metagenome,0.058493806
+bASV15709,0.255,0.001,High,Proteobacteria,SAR86_clade,uncultured_SAR86,0.026180764
+bASV13753,0.253,0.001,High,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),marine_metagenome,0.019321175
+bASV43883,0.253,0.001,Low,Others,SAR202_clade,metagenome,0.047342109
+bASV12796,0.252,0.001,High,Others,Dadabacteriales,marine_metagenome,0.084144289
+bASV49769,0.252,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Unknown Marinimicrobia_(SAR406_clade) (Genus),0.092159305
+bASV61256,0.251,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.030296517
+bASV17653,0.251,0.001,Low,Bacteroidota,NS4_marine_group,Unknown NS4_marine_group (Genus),0.034927956
+bASV12106,0.25,0.001,High,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.008231507
+bASV18527,0.249,0.001,High,Bacteroidota,NS9_marine_group,uncultured_bacterium,0.083686983
+bASV39984,0.248,0.001,High,Bacteroidota,NS5_marine_group,uncultured_Flavobacteriales,0.01817791
+bASV14688,0.248,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.052361528
+bASV42445,0.248,0.001,Low,Others,uncultured,uncultured_bacterium,0.161804807
+bASV26713,0.248,0.001,Low,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.05365439
+bASV14662,0.248,0.001,Low,Proteobacteria,OM60(NOR5)_clade,Unknown OM60(NOR5)_clade (Genus),0.07722024
+bASV53828,0.247,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_delta,0.22114025
+bASV39643,0.247,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.040609009
+bASV17698,0.247,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.054285618
+bASV7176,0.246,0.001,High,Proteobacteria,SAR86_clade,Unknown SAR86_clade (Genus),0.052018548
+bASV20871,0.244,0.001,High,Proteobacteria,Ascidiaceihabitans,Unknown Ascidiaceihabitans (Genus),0.047216836
+bASV49480,0.244,0.001,Low,Proteobacteria,UBA10353_marine_group,unidentified_marine,0.038084096
+bASV63661,0.241,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_Fibrobacteres/Acidobacteria,0.042713103
+bASV39460,0.241,0.001,Low,Cyanobacteria,Cyanobium_PCC-6307,Unknown Cyanobium_PCC-6307 (Genus),0.732855844
+bASV2859,0.24,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.024407487
+bASV27877,0.24,0.001,Low,Others,Rhodopirellula,marine_metagenome,0.036400821
+bASV34960,0.239,0.001,High,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.097520487
+bASV4625,0.239,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.01683275
+bASV30649,0.239,0.001,Low,Proteobacteria,Luminiphilus,Unknown Luminiphilus (Genus),0.019568072
+bASV19485,0.238,0.001,High,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.036927453
+bASV39342,0.238,0.001,Low,Others,Marine_Group_III,Unknown Marine_Group_III (Genus),0.039767371
+bASV41020,0.237,0.001,High,Bacteroidota,NS2b_marine_group,Unknown NS2b_marine_group (Genus),0.032926026
+bASV31808,0.237,0.001,Low,Proteobacteria,uncultured,uncultured_marine,0.012414153
+bASV28929,0.236,0.001,High,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.028467293
+bASV25598,0.236,0.001,Low,Proteobacteria,HOC36,Candidatus_Thioglobus,0.014939065
+bASV34464,0.235,0.001,High,Bacteroidota,NS4_marine_group,Unknown NS4_marine_group (Genus),0.033497659
+bASV2438,0.234,0.001,High,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.012804566
+bASV54990,0.234,0.001,Low,Others,FS140-16B-02_marine_group,Unknown FS140-16B-02_marine_group (Genus),0.011993334
+bASV52151,0.234,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),metagenome,0.019147253
+bASV60666,0.232,0.001,High,Others,Margulisbacteria,uncultured_bacterium,0.011089669
+bASV53165,0.232,0.001,Low,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.074905737
+bASV12942,0.232,0.001,Low,Proteobacteria,Woeseia,marine_metagenome,0.061018718
+bASV12780,0.232,0.001,Low,Proteobacteria,uncultured,uncultured_nuHF2,0.0134662
+bASV3970,0.231,0.001,High,Bacteroidota,NS5_marine_group,uncultured_Flavobacteriaceae,0.016463013
+bASV21271,0.231,0.001,High,Proteobacteria,S25-593,Unknown S25-593 (Genus),0.353954782
+bASV34216,0.231,0.001,Low,Others,OM190,uncultured_Planctomycetaceae,0.004208187
+bASV59639,0.23,0.001,Low,Others,Arctic97B-4_marine_group,uncultured_bacterium,0.022303393
+bASV31294,0.23,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.023776259
+bASV28962,0.23,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),unidentified_marine,0.038925734
+bASV43295,0.229,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),metagenome,0.019568072
+bASV13452,0.229,0.001,Low,Proteobacteria,uncultured,uncultured_marine,0.017043159
+bASV18017,0.228,0.001,High,Proteobacteria,uncultured,uncultured_Alphaproteobacteria,0.070768091
+bASV36864,0.227,0.001,High,Proteobacteria,SAR86_clade,Unknown SAR86_clade (Genus),0.02858162
+bASV31888,0.227,0.001,Low,Others,Roseibacillus,uncultured_Verrucomicrobiaceae,0.025669943
+bASV48128,0.226,0.001,Low,Others,Lentisphaera,Lentisphaera_araneosa,0.025880353
+bASV27304,0.226,0.001,Low,Others,Dadabacteriales,uncultured_marine,0.014097428
+bASV40171,0.225,0.001,High,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.226252104
+bASV30091,0.224,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.372003771
+bASV29416,0.224,0.001,Low,Bacteroidota,NS7_marine_group,uncultured_Flavobacterium,0.022092984
+bASV23139,0.224,0.001,Low,Bacteroidota,NS9_marine_group,Unknown NS9_marine_group (Genus),0.007153919
+bASV59814,0.223,0.001,Low,Proteobacteria,Ga0077536,uncultured_bacterium,0.01683275
+bASV22405,0.223,0.001,Low,Proteobacteria,Clade_Ia,Unknown Clade_Ia (Genus),0.354750202
+bASV53975,0.222,0.001,High,Proteobacteria,AEGEAN-169_marine_group,unidentified_marine,0.038070718
+bASV11769,0.222,0.001,High,Others,SCGC_AAA164-E04,uncultured_bacterium,0.045044633
+bASV32264,0.222,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Unknown Marinimicrobia_(SAR406_clade) (Genus),0.012834972
+bASV24509,0.222,0.001,Low,Proteobacteria,SAR86_clade,marine_metagenome,0.036190412
+bASV10546,0.221,0.001,High,Bacteroidota,NS4_marine_group,unidentified_marine,0.021950684
+bASV4620,0.221,0.001,Low,Cyanobacteria,Prochlorococcus_MIT9313,Unknown Prochlorococcus_MIT9313 (Genus),0.094684218
+bASV23092,0.221,0.001,Low,Actinobacteriota,Candidatus_Actinomarina,marine_metagenome,0.048814974
+bASV668,0.22,0.001,High,Proteobacteria,S25-593,uncultured_marine,0.051675569
+bASV146,0.22,0.001,High,Bacteroidota,NS9_marine_group,uncultured_marine,0.009946404
+bASV16329,0.22,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),unidentified_marine,0.091107258
+bASV12056,0.219,0.001,High,Proteobacteria,uncultured,unidentified_marine,0.044587327
+bASV5901,0.219,0.001,Low,Bacteroidota,Crocinitomix,uncultured_bacterium,0.008626784
+bASV58239,0.218,0.001,High,Proteobacteria,PS1_clade,Unknown PS1_clade (Genus),0.101293261
+bASV61147,0.218,0.001,Low,Proteobacteria,OCS116_clade,uncultured_marine,0.023986668
+bASV16816,0.217,0.001,High,Bacteroidota,uncultured,uncultured_Owenweeksia,0.02858162
+bASV5450,0.217,0.001,Low,Others,Rhodopirellula,uncultured_marine,0.025249125
+bASV5107,0.216,0.001,High,Proteobacteria,AEGEAN-169_marine_group,metagenome,0.074883844
+bASV39398,0.215,0.001,High,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_Fibrobacteres/Acidobacteria,0.024923173
+bASV65032,0.215,0.001,Low,Proteobacteria,S25-593,Unknown S25-593 (Genus),0.026511581
+bASV52950,0.214,0.001,High,Bacteroidota,NS2b_marine_group,uncultured_bacterium,0.024923173
+bASV40921,0.213,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.008626784
+bASV29115,0.213,0.001,Low,Others,Marine_Group_II,uncultured_marine,0.027984447
+bASV10768,0.213,0.001,Low,Proteobacteria,uncultured,uncultured_bacterium,0.009678831
+bASV64042,0.212,0.001,Low,Proteobacteria,Unknown Rhodobacteraceae (Family),Unknown Rhodobacteraceae (Family),0.075957783
+bASV54823,0.212,0.001,Low,Others,Marine_Group_II,marine_metagenome,0.008416375
+bASV17751,0.212,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Alteromonas_macleodii,0.006101872
+bASV10947,0.211,0.001,High,Proteobacteria,AEGEAN-169_marine_group,unidentified_marine,0.041043206
+bASV8556,0.211,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.021461756
+bASV35563,0.211,0.001,Low,Bacteroidota,NS9_marine_group,uncultured_marine,0.021040937
+bASV4835,0.21,0.001,High,Bacteroidota,NS9_marine_group,uncultured_bacterium,0.039442636
+bASV55128,0.21,0.001,Low,Bacteroidota,NS4_marine_group,Unknown NS4_marine_group (Genus),0.038504915
+bASV25753,0.21,0.001,Low,Actinobacteriota,Candidatus_Actinomarina,Unknown Candidatus_Actinomarina (Genus),0.699611163
+bASV60665,0.209,0.001,High,Bacteroidota,NS4_marine_group,Unknown NS4_marine_group (Genus),0.020350113
+bASV5656,0.209,0.001,Low,Cyanobacteria,Prochlorococcus_MIT9313,Unknown Prochlorococcus_MIT9313 (Genus),0.093000943
+bASV46499,0.208,0.001,Low,Proteobacteria,SAR86_clade,uncultured_bacterium,0.016201522
+bASV2395,0.208,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.010310059
+bASV18231,0.208,0.001,Low,Others,DEV007,Unknown DEV007 (Genus),0.135924455
+bASV13968,0.208,0.001,Low,Proteobacteria,Woeseia,marine_metagenome,0.042502693
+bASV36268,0.207,0.001,Low,Others,Peredibacter,uncultured_bacterium,0.029246903
+bASV20135,0.207,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.017253569
+bASV1428,0.207,0.001,Low,Proteobacteria,uncultured,uncultured_Alphaproteobacteria,0.011151697
+bASV52865,0.205,0.001,High,Bacteroidota,NS9_marine_group,uncultured_Flavobacteriales,0.008002854
+bASV52298,0.205,0.001,High,Others,Haloferula,uncultured_Verrucomicrobiae,0.03864235
+bASV9988,0.205,0.001,Low,Others,SAR324_clade(Marine_group_B),uncultured_SAR324,0.0269324
+bASV32840,0.204,0.001,Low,Bacteroidota,NS4_marine_group,uncultured_bacterium,0.0403986
+bASV17058,0.203,0.001,High,Proteobacteria,SAR116_clade,alpha_proteobacterium,0.19355473
+bASV59779,0.203,0.001,Low,Actinobacteriota,Sva0996_marine_group,marine_metagenome,0.011151697
+bASV7111,0.202,0.001,High,Bacteroidota,NS4_marine_group,unidentified_marine,0.02858162
+bASV25815,0.202,0.001,Low,Others,Arctic97B-4_marine_group,uncultured_bacterium,0.015991112
+bASV43620,0.201,0.001,High,Proteobacteria,PS1_clade,Unknown PS1_clade (Genus),0.016348687
+bASV7671,0.201,0.001,Low,Others,Blastopirellula,uncultured_bacterium,0.014518247
+bASV37232,0.201,0.001,Low,Proteobacteria,Woeseia,Unknown Woeseia (Genus),0.013887019
+bASV43596,0.2,0.001,Low,Others,Unknown Pirellulaceae (Family),Unknown Pirellulaceae (Family),0.009468422
+bASV34943,0.2,0.001,Low,Bacteroidota,Salinirepens,uncultured_bacterium,0.017884797
+bASV3421,0.2,0.001,Low,Others,Marine_Group_II,metagenome,0.015780703
+bASV60447,0.199,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.01662234
+bASV14089,0.199,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.014307837
+bASV37879,0.198,0.001,Low,Others,SAR202_clade,uncultured_Chloroflexi,0.011362106
+bASV28971,0.198,0.001,Low,Others,SAR202_clade,marine_metagenome,0.022513803
+bASV14960,0.197,0.001,High,Others,Marine_Group_II,marine_metagenome,0.030182191
+bASV41931,0.197,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.015570294
+bASV62483,0.196,0.001,Low,Others,Blastopirellula,Unknown Blastopirellula (Genus),0.011782925
+bASV57573,0.196,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.015149475
+bASV51514,0.196,0.001,Low,Others,Marine_Group_II,Unknown Marine_Group_II (Genus),0.017463978
+bASV11147,0.196,0.001,Low,Others,Margulisbacteria,uncultured_marine,0.006101872
+bASV6930,0.195,0.001,Low,Others,SAR202_clade,hydrothermal_vent,0.018936844
+bASV60080,0.194,0.001,High,Bacteroidota,uncultured,uncultured_bacterium,0.013261872
+bASV658,0.194,0.001,Low,Actinobacteriota,Sva0996_marine_group,uncultured_marine,0.014518247
+bASV25222,0.194,0.001,Low,Proteobacteria,uncultured,Unknown uncultured (Genus),0.022724212
+bASV5554,0.193,0.001,High,Others,uncultured,uncultured_Bacteriovoracaceae,0.004458733
+bASV13680,0.193,0.001,High,Others,Pirellula,Unknown Pirellula (Genus),0.004916039
+bASV9837,0.193,0.001,Low,Bacteroidota,NS5_marine_group,uncultured_bacterium,0.008416375
+bASV64397,0.193,0.001,Low,Others,uncultured,Unknown uncultured (Genus),0.049656612
+bASV52753,0.192,0.001,Low,Proteobacteria,SAR86_clade,Unknown SAR86_clade (Genus),0.007364328
+bASV30059,0.192,0.001,Low,Cyanobacteria,Synechococcus_CC9902,Unknown Synechococcus_CC9902 (Genus),0.012203744
+bASV62445,0.191,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.024407487
+bASV61349,0.191,0.001,Low,Others,Marine_Group_II,uncultured_archaeon,0.013045381
+bASV17801,0.191,0.001,Low,Others,Arctic97B-4_marine_group,metagenome,0.015991112
+bASV62569,0.19,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.019568072
+bASV23490,0.19,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Alteromonas_macleodii,0.023145031
+bASV28161,0.189,0.001,Low,Bacteroidota,uncultured,uncultured_Flavobacteriia,0.030719768
+bASV52774,0.188,0.001,Low,Proteobacteria,uncultured,Unknown uncultured (Genus),0.007364328
+bASV43230,0.188,0.001,Low,Proteobacteria,Clade_IV,uncultured_bacterium,0.012414153
+bASV61342,0.187,0.001,Low,Actinobacteriota,Sva0996_marine_group,marine_metagenome,0.015570294
+bASV8959,0.186,0.001,Low,Crenarchaeota,Candidatus_Nitrosopumilus,Unknown Candidatus_Nitrosopumilus (Genus),0.024407487
+bASV53790,0.186,0.001,Low,Others,SAR202_clade,marine_metagenome,0.012624562
+bASV24940,0.186,0.001,Low,Crenarchaeota,Candidatus_Nitrosopumilus,Unknown Candidatus_Nitrosopumilus (Genus),0.073012052
+bASV45412,0.185,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Unknown Marinimicrobia_(SAR406_clade) (Genus),0.021672165
+bASV37371,0.185,0.001,Low,Proteobacteria,uncultured,uncultured_marine,0.022303393
+bASV332,0.184,0.001,Low,Proteobacteria,oc32,uncultured_Rhodocyclaceae,0.01009965
+bASV55020,0.182,0.001,Low,Proteobacteria,SAR86_clade,bacterium_WHC4-9,0.012203744
+bASV30532,0.182,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.008626784
+bASV24935,0.182,0.001,Low,Actinobacteriota,Sva0996_marine_group,uncultured_actinobacterium,0.011993334
+bASV43964,0.181,0.001,High,Actinobacteriota,DS001,marine_metagenome,0.009832077
+bASV53814,0.18,0.001,Low,Others,FS140-16B-02_marine_group,uncultured_bacterium,0.004208187
+bASV50126,0.18,0.001,Low,Proteobacteria,SAR86_clade,uncultured_gamma,0.061018718
+bASV12618,0.18,0.001,Low,Others,Roseibacillus,uncultured_marine,0.04692129
+bASV27598,0.179,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.024197078
+bASV2302,0.179,0.001,Low,Others,Marine_Group_II,marine_metagenome,0.032192634
+bASV15659,0.179,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.041029828
+bASV10014,0.179,0.001,Low,Others,JG30-KF-CM66,marine_metagenome,0.014939065
+bASV19797,0.178,0.001,Low,Others,Blastopirellula,uncultured_bacterium,0.0134662
+bASV46497,0.177,0.001,Low,Others,Marine_Group_II,uncultured_archaeon,0.008626784
+bASV3165,0.177,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),Unknown Marinimicrobia_(SAR406_clade) (Genus),0.026090762
+bASV31211,0.177,0.001,Low,Bacteroidota,uncultured,Unknown uncultured (Genus),0.006312281
+bASV46176,0.176,0.001,Low,Proteobacteria,OCS116_clade,Unknown OCS116_clade (Genus),0.006101872
+bASV35145,0.176,0.001,Low,Others,LS-NOB,Unknown LS-NOB (Genus),0.022934622
+bASV3110,0.176,0.001,Low,Others,uncultured,uncultured_marine,0.009468422
+bASV59276,0.175,0.001,Low,Bacteroidota,NS10_marine_group,Unknown NS10_marine_group (Genus),0.008626784
+bASV48611,0.175,0.001,Low,Proteobacteria,EPR3968-O8a-Bc78,uncultured_gamma,0.007785147
+bASV57133,0.172,0.001,Low,Others,SAR202_clade,marine_metagenome,0.01683275
+bASV43211,0.17,0.001,Low,Proteobacteria,Clade_Ib,Unknown Clade_Ib (Genus),0.013887019
+bASV3067,0.169,0.001,Low,Proteobacteria,uncultured,Unknown uncultured (Genus),0.008205966
+bASV24936,0.169,0.001,Low,Bacteroidota,uncultured,uncultured_bacterium,0.051129478
+bASV18617,0.168,0.001,Low,Others,Blastopirellula,bacterium_SH1-10,0.008837194
+bASV23901,0.165,0.001,Low,Proteobacteria,Clade_II,Unknown Clade_II (Genus),0.015149475
+bASV16122,0.164,0.001,Low,Others,SAR202_clade,Unknown SAR202_clade (Genus),0.012834972
+bASV61793,0.159,0.001,Low,Others,PB19,uncultured_delta,0.009678831
+bASV55450,0.156,0.001,Low,Others,uncultured,uncultured_marine,0.007153919
+bASV38275,0.155,0.001,Low,Bacteroidota,NS5_marine_group,marine_metagenome,0.014097428
+bASV18616,0.155,0.001,Low,Others,MB11C04_marine_group,Unknown MB11C04_marine_group (Genus),0.011151697
+bASV21109,0.148,0.001,Low,Others,SAR202_clade,uncultured_SAR202,0.006522691
+bASV7841,0.146,0.001,Low,Marinimicrobia_(SAR406_clade),Marinimicrobia_(SAR406_clade),uncultured_bacterium,0.0067331
+bASV33547,0.145,0.001,Low,Others,SCGC_AAA164-E04,Verrucomicrobia_bacterium,0.023145031
+bASV23375,0.138,0.001,Low,Others,SAR202_clade,uncultured_SAR202,0.008205966
