@@ -1,5 +1,8 @@
-## This worksheet describes the bioinformatics processing of 16S and 18S amplicon data for the 2021 GOMECC-4 cruise in the Gulf of Mexico
+## code
 
+Bioinformatics processing of 16S and 18S amplicon data for the 2021 GOMECC-4 cruise in the Gulf of Mexico
+
+```bash
 # Activate QIIME 2
 conda activate qiime2-2021.2
 source tab-qiime
@@ -120,24 +123,4 @@ qiime feature-table merge --i-tables tablev1.qza --i-tables tablev2.qza --o-merg
 
 # Infer taxonomy in QIIME 2 with trained 16S V4-V5 classifier from above
 qiime feature-classifier classify-sklearn --i-classifier classifier_V4-V5.qza --i-reads repseqs-16S-merge.qza --o-classification taxonomy-16S-merge.qza
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
