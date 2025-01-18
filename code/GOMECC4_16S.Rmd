@@ -1,7 +1,7 @@
 ---
 title: "GOMECC-4 DNA 16S"
 author: "Sean R. Anderson"
-date: "07/28/2024"
+date: "01/18/2025"
 output: 
   html_document:
     number_sections: true
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE, tidy = TRUE,warning = FALSE,mes
 # Overview
 
 Anderson, S.R., Silliman, K., Barbero, L., Gomez, F.A., Stauffer, B.A., Schnetzer A., Kelble, C.R., and Thompson, L.R.
-Assessing the effects of warming and carbonate chemistry parameters on marine microbes in the Gulf of Mexico through basin scale DNA metabarcoding.
+Assessing the effects of warming and carbonate chemistry on marine microbes in the Gulf of Mexico through basin scale DNA metabarcoding.
 
 ## Summary
 
@@ -39,8 +39,8 @@ library(phyloseq);library(reshape2)
 library(fantaxtic);library(RColorBrewer);library(microbiome)
 library(factoextra);library(ggridges);library(microeco)
 library(file2meco);library(MASS);library(sjPlot)
-library(coefplot);library(ggpubr);library(treemap)
-library(rcartocolor);library(indicspecies);library(performance)
+library(coefplot);library(ggpubr);library(treemap);library(geosphere)
+library(rcartocolor);library(indicspecies);library(performance); library(speedyseq)
 library(dplyr);library(sjstats);library(lmtest);library(ranacapa)
 ```
 
@@ -76,8 +76,8 @@ tax_tab_16S$Species<- gsub("^.{0,4}", "", tax_tab_16S$Species)
 Export the .csv count and taxonomy files and manually add a new column for 16S functional groups to the taxonomy file. These new .csv files will be uploaded again for downstream processing. 
 
 ```{r}
-tax_new_16S = read.csv(file = "Taxonomy16S_all.csv.gz", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # File compressed to reduce size
-count_new_16S = read.csv(file = "Count16S_all.csv.gz", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # File compressed to reduce size
+tax_new_16S = read.csv(file = "/Users/seananderson/Gomecc-4/Taxonomy16S_all.csv.gz", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # File compressed to reduce size
+count_new_16S = read.csv(file = "/Users/seananderson/Gomecc-4/Count16S_all.csv.gz", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # File compressed to reduce size
 count_new_16S = count_new_16S[ order(match(count_new_16S$ASV, tax_new_16S$ASV)), ] # Match order of ASVs for both files 
 rownames(count_new_16S) <- count_new_16S$ASV # Rename row names
 count_new_16S <- count_new_16S[ -c(1) ]
@@ -88,7 +88,7 @@ tax_new_16S <- tax_new_16S[ -c(1) ]
 Load in metadata. 
 
 ```{r}
-sample_info_tab <- read.csv("metadata_Aug2023.csv", header=T,row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") 
+sample_info_tab <- read.csv("/Users/seananderson/Gomecc-4/metadata_Aug2023.csv", header=T,row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") 
 row.names(sample_info_tab) <- sample_info_tab[,1]
 sample_info_tab <- sample_info_tab[,-1]
 sample_info_tab$dic = as.numeric(sample_info_tab$dic)
@@ -201,7 +201,7 @@ table(sub_grp)
 Plot the type of samples that were found within 16S (and 18S) sample clusters. Clusters largely reflect depth in the water column on the shelf and in the open GOM.
 
 ```{r fig.width=5, fig.height=5}
-spatial <- read.csv("sample_info.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Load sample sheet
+spatial <- read.csv("/Users/seananderson/Gomecc-4/sample_info.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Load sample sheet
 p <- ggplot(spatial, aes(x=Type, y=Count,fill=Cluster))
 p$data$Type <- factor(p$data$Type, levels = c("Shelf_Surface","Shelf_DCM","Shelf_Bottom","Open_Surface","Open_DCM","Open_Bottom"))
 p+ geom_col(show.legend = FALSE,colour="black") +theme_bw()+
@@ -311,15 +311,14 @@ p + geom_boxplot(alpha = 0.5, outlier.shape = NA, color = "black") + theme_bw() 
 Display 16S functional groups in each cluster. The percent of each functional group represents the mean proportion of reads attributed to that group. 
 
 ```{r fig.width=8, fig.height=5, results = FALSE}
-dataset <- phyloseq2meco(ps_subset_16S) 
+dataset <- phyloseq2meco(ps_subset_16S)
 t1 <- trans_abund$new(dataset = dataset, taxrank = "Category", ntaxa = 2, groupmean = "cluster_16S")
 t1$plot_donut()
 ```
 
 # Prokaryotic taxonomy
 
-Plot mean 16S relative abundance (%) stacked bar plots for each cluster and transect on GOMECC-4.
-We focused on the top 12 most relatively abundant Bacteria and Archaea at the order level across all samples. Less abundant organisms were grouped into an "others" category. Taxonomy was assigned to ASVs with SILVA (Version 138.1).
+Plot mean 16S relative abundance (%) stacked bar plots for each cluster and transect on GOMECC-4. We focused on the top 12 most relatively abundant Bacteria and Archaea at the order level across all samples. Less abundant organisms were grouped into an "others" category. Taxonomy was assigned to ASVs with SILVA (Version 138.1).
 
 ```{r fig.width=14, fig.height=5, results = FALSE}
 tax_table(ps_subset_16S) <- tax_table(ps_subset_16S)[,2:8] # Subset out the functional category column and focus on taxonomy levels
@@ -482,20 +481,20 @@ glm.1 = cluster1 %>% # Group the data based on class and preserve sample replica
   dplyr::group_by(station,depth_category, Order,replicate) %>%
   summarise(temp=mean(temp),
             salinity= mean(salinity),
-            oxygen= mean(oxygen),
-            phosphate= mean(phosphate),
-            nitrate= mean(nitrate),
-            nitrite= mean(nitrite),
-            silicate= mean(silicate),
-            nh4= mean(nh4),
-            pH_corrected= mean(pH_corrected),
-            total_alkalinity= mean(total_alkalinity),
-            OMEGA_AR= mean(OMEGA_AR),
-            dic= mean(dic),
-            pCO2_corrected= mean(pCO2_corrected),
-            carbonate= mean(carbonate),
-            fluorescence= mean(fluorescence),
-            Abundance= mean(Abundance),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
             .groups = 'drop')
 ```
 
@@ -509,21 +508,21 @@ cluster1 <- x2[x2[["cluster_16S"]]== "Cluster 1", ] # Subset to Cluster 1
 glm.2 = cluster1 %>% # Group the data based on class and preserve sample replication for the models
   dplyr::group_by(station,depth_category, Genus,replicate) %>%
   summarise(temp=mean(temp),
-            salinity= mean(salinity),
-            oxygen= mean(oxygen),
-            phosphate= mean(phosphate),
-            nitrate= mean(nitrate),
-            nitrite= mean(nitrite),
-            silicate= mean(silicate),
-            nh4= mean(nh4),
-            pH_corrected= mean(pH_corrected),
-            total_alkalinity= mean(total_alkalinity),
-            OMEGA_AR= mean(OMEGA_AR),
-            dic= mean(dic),
-            pCO2_corrected= mean(pCO2_corrected),
-            carbonate= mean(carbonate),
-            fluorescence= mean(fluorescence),
-            Abundance= mean(Abundance),
+            salinity = mean(salinity),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
             .groups = 'drop')
 ```
 
@@ -537,13 +536,13 @@ df1 = na.omit(df1) # Omit any rows that have NA values
 correlations = cor(df1, method = "spearman") # Perform Spearman correlations to assess collinearity
 #write.csv(correlations, "Cluster1_corr_16S.csv",row.names=T) # Write .csv file
 
-df1_filt = glm.1[,c(3,5,6,7:9,12,13,16,20)] # Initial list of variables that were not collinear (Spearman < 0.7 or > -0.7)
+df1_filt = glm.1[,c(3,5:9,12,13,16,20)] # Initial list of variables that were not collinear (Spearman < 0.7 or > -0.7)
 df1_filt = na.omit(df1_filt) # Omit any rows that have NA values
 model1 <- lm(Abundance ~., data = df1_filt) # Test model for VIFs
 car::vif(model1) # Display VIFs from test model - VIFs should be < 10
 
 # Repeat this process for the genus level groups
-df1_filt2 = glm.2[,c(3,5,6,7:9,12,13,16,20)]
+df1_filt2 = glm.2[,c(3,5:9,12,13,16,20)]
 df1_filt2 = na.omit(df1_filt2) # Omit any rows that have NA values
 model1 <- lm(Abundance ~., data = df1_filt2)
 car::vif(model1) # VIFs look good
@@ -556,42 +555,42 @@ cluster2 <- x1[x1[["cluster_16S"]]== "Cluster 2", ] # Subset to Cluster 2
 clus.2 = cluster2 %>% # Group the data based on class and preserve sample replication for the models
   dplyr::group_by(station,depth_category, Class,replicate) %>%
   summarise(temp=mean(temp),
-            salinity= mean(salinity),
-            oxygen= mean(oxygen),
-            phosphate= mean(phosphate),
-            nitrate= mean(nitrate),
-            nitrite= mean(nitrite),
-            silicate= mean(silicate),
-            nh4= mean(nh4),
-            pH_corrected= mean(pH_corrected),
-            total_alkalinity= mean(total_alkalinity),
-            OMEGA_AR= mean(OMEGA_AR),
-            dic= mean(dic),
-            pCO2_corrected= mean(pCO2_corrected),
-            carbonate= mean(carbonate),
-            fluorescence= mean(fluorescence),
-            Abundance= mean(Abundance),
+            salinity = mean(salinity),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
      .groups = 'drop')
 
 cluster3 <- x1[x1[["cluster_16S"]]== "Cluster 3", ] # Subset to Cluster 3
 clus.3 = cluster3 %>% # Group the data based on class and preserve sample replication for the models
   dplyr::group_by(station,depth_category, Class,replicate) %>%
   summarise(temp=mean(temp),
-            salinity= mean(salinity),
-            oxygen= mean(oxygen),
-            phosphate= mean(phosphate),
-            nitrate= mean(nitrate),
-            nitrite= mean(nitrite),
-            silicate= mean(silicate),
-            nh4= mean(nh4),
-            pH_corrected= mean(pH_corrected),
-            total_alkalinity= mean(total_alkalinity),
-            OMEGA_AR= mean(OMEGA_AR),
-            dic= mean(dic),
-            pCO2_corrected= mean(pCO2_corrected),
-            carbonate= mean(carbonate),
-            fluorescence= mean(fluorescence),
-            Abundance= mean(Abundance),
+            salinity = mean(salinity),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
      .groups = 'drop')
 
 # Spearman Cluster 2
@@ -607,7 +606,7 @@ correlations3 = cor(df3, method = "spearman") # Perform Spearman correlations to
 #write.csv(correlations3, "Cluster3_corr_16S.csv",row.names=T) # Write .csv file
 ```
 
-More variables in Clusters 2-3 are collinear, so stick with Cluster 1 models. 
+More variables in Clusters 2-3 are collinear, so stick with Cluster 1 models. Spearman values for Clusters 1-3 are in Table S1. 
 
 > The following variables were selected for initial models: temperature, oxygen, salinity, phosphate, nitrate, ammonium, DIC, and pH.
 
@@ -628,10 +627,10 @@ Run model based on Poisson and negative binomial distribution. Compare models an
 ```{r results = FALSE}
 df_synecho$Abundance = round(df_synecho$Abundance) # Round abundance
 
-model_synecho <- glm(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_synecho,family=poisson) # Poisson model
+model_synecho <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_synecho,family=poisson) # Poisson model
 summary(model_synecho) # Summary
 
-model_synecho_nb <- glm.nb(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_synecho) # NB model
+model_synecho_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_synecho) # NB model
 summary(model_synecho_nb) # Summary
 
 compare_performance(model_synecho,model_synecho_nb, verbose = FALSE) # Compare the two models - NB has lower AIC
@@ -642,11 +641,11 @@ compare_performance(model_synecho,model_synecho_nb, verbose = FALSE) # Compare t
 Select significant environmental variables to find the best model fit. 
 
 ```{r results = FALSE}
-model_synecho_nb <- glm.nb(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_synecho) # Run NB model again
+model_synecho_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_synecho) # Run NB model again
 summary(model_synecho_nb)
 stepAIC(model_synecho_nb, direction="both", k = 3.8415) # Stepwise AIC selection
 
-model_synecho_sig <- glm.nb(Abundance ~ oxygen + nitrate + pH_corrected +  dic, data = df_synecho) # Final model with significant factors
+model_synecho_sig <- glm.nb(Abundance ~ oxygen +  nitrate + pH_corrected + dic, data = df_synecho) # Final model with significant factors
 summary(model_synecho_sig) # Summary
 ```
 
@@ -677,7 +676,7 @@ m_nb_pred <- predict(model_synecho_train, synecho_split$test, type = "response")
   tibble(family = "Negative Binomial", pred = .) %>% 
   bind_cols(obs)
 
-p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",         conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "Synechococcus GLM model fit") +
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "Synechococcus GLM model fit") +
   geom_point(fill="#732633",size = 5, shape = 21, colour = "black") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw()         
 p
 #ggsave(filename = "Synecho_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
@@ -690,10 +689,10 @@ Run through similar steps with *Prochlorococcus* to find best model.
 ```{r results = FALSE}
 df_prochlo$Abundance = round(df_prochlo$Abundance) # Round abundance
 
-model_prochlo <- glm(Abundance ~  temp + oxygen + salinity + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_prochlo,family=poisson) # Poisson model
+model_prochlo <- glm(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_prochlo,family=poisson) # Poisson model
 summary(model_prochlo) # Summary
 
-model_prochlo_nb <- glm.nb(Abundance ~  temp + oxygen + salinity + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_prochlo) # NB model
+model_prochlo_nb <- glm.nb(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_prochlo) # NB model
 summary(model_prochlo_nb)
 
 compare_performance(model_prochlo,model_prochlo_nb, verbose = FALSE) # Compare the two models - NB has lower AIC
@@ -704,10 +703,11 @@ compare_performance(model_prochlo,model_prochlo_nb, verbose = FALSE) # Compare t
 Select environmental variables for the final model.
 
 ```{r results = FALSE}
-model_prochlo_nb <- glm.nb(Abundance ~  temp + oxygen + salinity + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_prochlo) # Run NB model again
+model_prochlo_nb <- glm.nb(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_prochlo) # Run NB model again
 summary(model_prochlo_nb)
+stepAIC(model_prochlo_nb, direction="both", k = 3.8415) # Stepwise AIC selection
 
-model_prochlo_sig <- glm.nb(Abundance ~  salinity + phosphate + pH_corrected + nitrate, data = df_prochlo) # Final NB model with significant factors
+model_prochlo_sig <- glm.nb(Abundance ~  salinity + phosphate + nitrate + pH_corrected, data = df_prochlo) # Final NB model with significant factors
 summary(model_prochlo_sig)
 ```
 
@@ -738,7 +738,7 @@ m_nb_pred <- predict(model_prochlo_train, prochlo_split$test, type = "response")
   tibble(family = "Negative Binomial", pred = .) %>% 
   bind_cols(obs)
 
-p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",         conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "Prochloroccus GLM model fit") +
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "Prochloroccus GLM model fit") +
   geom_point(fill="#CC6677",size = 5, shape = 21, colour = "black") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw()         
 p
 #ggsave(filename = "Prochlo_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
@@ -751,10 +751,10 @@ Run through similar steps with SAR11.
 ```{r results = FALSE}
 df_sar$Abundance = round(df_sar$Abundance) # Round abundance
 
-model_sar <- glm(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_sar,family=poisson) # Poisson model
+model_sar <- glm(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar,family=poisson) # Poisson model
 summary(model_sar)
 
-model_sar_nb <- glm.nb(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_sar) # NB model
+model_sar_nb <- glm.nb(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar) # NB model
 summary(model_sar_nb) # Summary
 
 compare_performance(model_sar,model_sar_nb, verbose = FALSE) # Compare the two models - Poisson has lower AIC
@@ -765,11 +765,11 @@ compare_performance(model_sar,model_sar_nb, verbose = FALSE) # Compare the two m
 Select final model with only significant variables. 
 
 ```{r results = FALSE}
-model_sar <- glm(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_sar,family=poisson) # Run Poisson model again
+model_sar <- glm(Abundance ~temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar,family=poisson) # Run Poisson model again
 summary(model_sar)
 stepAIC(model_sar, direction="both", k = 3.8415) # Stepwise AIC for factor selection
 
-model_sar_sig <- glm(Abundance ~ temp + oxygen + dic + nh4, data = df_sar,family=poisson) # Final model
+model_sar_sig <- glm(Abundance ~ temp + oxygen + nh4 + dic, data = df_sar,family=poisson) # Final model
 summary(model_sar_sig) # Summary
 ```
 
@@ -782,7 +782,7 @@ check_zeroinflation(model_sar_sig)
 check_residuals(model_sar_sig)
 model_performance(model_sar_sig)
 check_model(model_sar_sig,check="pp_check",type="density") # Predictive plot
-#check_model(model_sar_sig, type = 2) # All model performance plots
+#check_model(model_sar_sig) # All model performance plots
 ```
 
 Split and train relative abundance data to test the fit of the final SAR11 model. 
@@ -801,7 +801,7 @@ m_nb_pred <- predict(model_sar_train, sar_split$test, type = "response") %>% # P
   tibble(family = "Poisson", pred = .) %>% 
   bind_cols(obs)
 
-p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",         conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "SAR11 clade GLM model fit") +
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "SAR11 clade GLM model fit") +
   geom_point(fill="#88CCEE",size = 5, shape = 21, colour = "black") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw()         
 p
 #ggsave(filename = "SAR11_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
@@ -814,10 +814,10 @@ Repeat steps for SAR86.
 ```{r results = FALSE}
 df_sar86$Abundance = round(df_sar86$Abundance) # Round abundance
 
-model_sar86 <- glm(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_sar86,family=poisson) # Poisson model
+model_sar86 <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar86,family=poisson) # Poisson model
 summary(model_sar86)
 
-model_sar86_nb <- glm.nb(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_sar86) # NB model
+model_sar86_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar86) # NB model
 summary(model_sar86_nb)
 
 compare_performance(model_sar86,model_sar86_nb, verbose = FALSE) # Compare the two models - Poisson has lower AIC
@@ -828,11 +828,11 @@ compare_performance(model_sar86,model_sar86_nb, verbose = FALSE) # Compare the t
 Select final model with only significant variables. 
 
 ```{r results = FALSE}
-model_sar86 <- glm(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_sar86,family=poisson) # Run Poisson model again
+model_sar86 <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar86,family=poisson) # Run Poisson model again
 summary(model_sar86)
 stepAIC(model_sar86, direction="both", k = 3.8415) # Stepwise selection
 
-model_sar86_sig <- glm(Abundance ~ temp + oxygen + nh4 + pH_corrected + dic, data = df_sar86,family=poisson) # Final model
+model_sar86_sig <- glm(Abundance ~ temp  + oxygen + nh4 + pH_corrected + dic , data = df_sar86,family=poisson) # Final model
 summary(model_sar86_sig)
 ```
 
@@ -863,7 +863,7 @@ m_nb_pred <- predict(model_sar86_train, sar86_split$test, type = "response") %>%
   tibble(family = "Poisson", pred = .) %>% 
   bind_cols(obs)
 
-p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T,  point = "FALSE",add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "SAR86 clade GLM model fit") +
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T,  point = "FALSE",add.params = list(color = "black", fill = "darkgray"), add = "reg.line", conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "SAR86 clade GLM model fit") +
   geom_point(fill="#DDCC77",size = 5, shape = 21, colour = "black", position="jitter") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw() 
 p
 #ggsave(filename = "SAR86_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
@@ -876,10 +876,10 @@ Repeat steps for Flavobacteriales.
 ```{r results = FALSE}
 df_flavo$Abundance = round(df_flavo$Abundance) # Round abundance
 
-model_flavo <- glm(Abundance ~temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_flavo,family=poisson) # Poisson model
+model_flavo <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_flavo,family=poisson) # Poisson model
 summary(model_flavo) # Summary
 
-model_flavo_nb <- glm.nb(Abundance ~ temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_flavo) # NB model
+model_flavo_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_flavo) # NB model
 summary(model_flavo_nb)
 
 compare_performance(model_flavo,model_flavo_nb, verbose = FALSE) # Compare the two models - Poisson has lower AIC
@@ -890,11 +890,11 @@ compare_performance(model_flavo,model_flavo_nb, verbose = FALSE) # Compare the t
 Select final model with only significant variables. 
 
 ```{r results = FALSE}
-model_flavo <- glm(Abundance ~temp + salinity + oxygen + phosphate + nh4 + pH_corrected + dic + nitrate, data = df_flavo,family=poisson) # Run Poisson model again
+model_flavo <- glm(Abundance ~temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_flavo,family=poisson) # Run Poisson model again
 summary(model_flavo)
 stepAIC(model_flavo, direction="both", k = 3.8415) # Stepwise selection of factors
 
-model_flavo_sig <- glm(Abundance ~ salinity + dic, data = df_flavo,family=poisson) # Final model
+model_flavo_sig <- glm(Abundance ~ salinity + dic , data = df_flavo,family=poisson) # Final model
 summary(model_flavo_sig)
 ```
 
@@ -1102,7 +1102,7 @@ ggarrange(fig1,fig2,fig3,fig4,fig5,fig6,fig7,fig8,fig9,fig10,fig11,fig12,fig13,f
 Models for 16S groups were used to predict relative abundance at 135 GOMECC-4 sites at the surface (< 10 m). Data for 6 sites were not available at the surface. This resulted in 84 sites where DNA was not collected, allowing for an expanded view of microbial distribution in the Gulf of Mexico surface waters at this time. 
 
 ```{r}
-gomecc_all <- read.csv("GOMECC-all-sites-final.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Load file of metadata from all surface sites 
+gomecc_all <- read.csv("/Users/seananderson/Gomecc-4/GOMECC-all-sites-final.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Load file of metadata from all surface sites 
 
 gomecc_all_synecho = gomecc_all[,c(9,11,13,15)] # Subset to variables in final Synechococcus model
 new_val_synecho = predict(model_synecho_sig, newdata=gomecc_all_synecho,type="response") # Predict new values based on GLM
@@ -1156,14 +1156,14 @@ data <- as(sample_data(ps_dsq), "data.frame") # Subset metadata
 data = data[!is.na(data$alk_dic_oa),] # Remove TA:DIC NA values 
 bin = data$alk_dic_oa # Bin based on low vs. high categories
 inv = multipatt(ASV, bin, func = "r.g", control = how(nperm=999)) # Core function using 999 permutations
-summary(inv,alpha=0.001) # Filter for significance
+summary(inv,alpha = 0.001) # Filter for significance
 ```
 
 Results of indicator analysis (ASV, stat, and p-value) combined in a single .csv file using the summary above. Upload this file into R (provided on GitHub).
 Match indicator values table for each ASV with the relative abundance of the same ASV in the photic zone via the ASV count table. **Data frames need to match**.
 
 ```{r}
-indic_OA <- read.csv("OA_indic_16S.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Indicator ASVs file
+indic_OA <- read.csv("/Users/seananderson/Gomecc-4/OA_indic_16S.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Indicator ASVs file
 colnames(indic_OA)[1]  <- "OTU" # Change column names
 indic.high = indic_OA[indic_OA[["OA"]]== "High", ] # Subset to new data frame with only high TA:DIC
 indic.low = indic_OA[indic_OA[["OA"]]== "Low", ] # Subset to new df with only low TA:DIC
@@ -1187,7 +1187,7 @@ df_L <- OA.low[OA.low$OTU %in% indic.low$OTU,] # Keep ASVs if they match indicat
 The previous two files were used in combination with the indicator file to create a master .csv file that has ASV IDs, indicator values, and relative abundance for each specific 16S ASV in the photic zone. This file to be loaded into R (provided on GitHub). 
 
 ```{r fig.width=12, fig.height=5}
-indic_OA2 <- read.csv("OA_indic2_16S.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Upload file
+indic_OA2 <- read.csv("/Users/seananderson/Gomecc-4/OA_indic2_16S.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Upload file
 p <- ggplot(indic_OA2, aes(x=stat, y=Abundance)) + geom_point(aes(fill=Phylum),shape=21,size=5) + theme_bw()+ theme(text = element_text(size = 14))+
   scale_y_continuous(limits = c(0, NA)) + facet_wrap(~OA,scales="free") + scale_fill_brewer(palette="Dark2") 
 p$data$Phylum <- factor(p$data$Phylum, levels = c("Actinobacteriota", "Bacteroidota","Crenarchaeota", "Cyanobacteria", "Marinimicrobia_(SAR406_clade)",  "Proteobacteria","Others")) # Set order
