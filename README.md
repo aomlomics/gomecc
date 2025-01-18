@@ -2,7 +2,7 @@
 
 This repository has QIIME 2 compatible files, metadata, R Markdown files, and all other input files needed for analysis and figure generation for the following manuscript:
 
-**Assessing the effects of warming and carbonate chemistry parameters on marine microbes in the Gulf of Mexico through basin-scale DNA metabarcoding**<br/>
+**Assessing the effects of warming and carbonate chemistry on marine microbes in the Gulf of Mexico through basin-scale DNA metabarcoding**<br/>
 *Sean R. Anderson, Katherine Silliman, Leticia Barbero, Fabian A. Gomez, Beth A. Stauffer, Astrid Schnetzer, Christopher R. Kelble, and Luke R. Thompson, (2024)*
 
 * [Preprint](https://www.biorxiv.org/content/10.1101/2024.07.30.605667v1)
