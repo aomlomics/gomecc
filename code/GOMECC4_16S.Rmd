@@ -1,0 +1,1204 @@
+---
+title: "GOMECC-4 DNA 16S"
+author: "Sean R. Anderson"
+date: "01/18/2025"
+output: 
+  html_document:
+    number_sections: true
+    theme: cosmo
+    highlight: kate
+    collapsed: false
+    toc: true
+    toc_depth: 4
+    toc_float: true
+  pdf_document:
+    toc: true
+    toc_depth: '4'
+---
+
+```{r setup, include=FALSE, message=FALSE,warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, tidy = TRUE,warning = FALSE,message = FALSE,cache.lazy = FALSE)
+```
+
+# Overview
+
+Anderson, S.R., Silliman, K., Barbero, L., Gomez, F.A., Stauffer, B.A., Schnetzer A., Kelble, C.R., and Thompson, L.R.
+Assessing the effects of warming and carbonate chemistry on marine microbes in the Gulf of Mexico through basin scale DNA metabarcoding.
+
+## Summary
+
+This markdown file describes code used to process 16S DNA samples collected on the fourth Gulf of Mexico Ecosystems and Carbon Cycle (GOMECC-4) cruise that sailed across the entire Gulf of Mexico basin for 40 days in summer-fall of 2021. A suite of metadata, including variables related to carbonate chemistry, were collected simultaneously with DNA samples, allowing us to explore environmental correlates of diverse microbial groups. Samples were collected along 16 inshore-offshore transects and up to three depths per site, reflecting the surface, deep chlorophyll maximum (DCM), and near bottom. 
+
+The analysis was performed in R version **4.3.1**. All input files needed to run the code are available in the `data-input` folder on GitHub. ASV and count files (.qza) were generated using [Tourmaline](https://github.com/aomlomics/tourmaline), which uses a Snakemake workflow and wraps QIIME 2 and DADA2.
+
+# Load R packages
+
+```{r message = FALSE, warning=FALSE}
+library(tidyverse); library(vegan);library(qiime2R)
+library(phyloseq);library(reshape2)
+library(fantaxtic);library(RColorBrewer);library(microbiome)
+library(factoextra);library(ggridges);library(microeco)
+library(file2meco);library(MASS);library(sjPlot)
+library(coefplot);library(ggpubr);library(treemap);library(geosphere)
+library(rcartocolor);library(indicspecies);library(performance); library(speedyseq)
+library(dplyr);library(sjstats);library(lmtest);library(ranacapa)
+```
+
+# Load 16S files and curate
+
+Load 16S count and taxonomy files produced from Tourmaline. 
+
+```{r}
+# Load ASV count table
+table <- read_qza(file="/Users/seananderson/Gomecc-4/table-16S-merge.qza")
+count_tab <- table$data %>% as.data.frame() # Convert to data frame 
+#write.csv(count_tab, "Count16S_all.csv",row.names=T)
+```
+
+```{r}
+# Load taxonomy file
+taxonomy <- read_qza(file="/Users/seananderson/Gomecc-4/taxonomy-16S-merge.qza")
+tax_tab_16S <- taxonomy$data %>% # Convert to data frame, tab separate and rename taxa levels, and remove row with confidence values
+  as.data.frame() %>%
+  separate(Taxon, sep = ";", c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")) %>% 
+  column_to_rownames("Feature.ID") %>%
+  dplyr::select(-Confidence)
+tax_tab_16S$Kingdom <- gsub("^.{0,3}", "", tax_tab_16S$Kingdom) # Clean up the taxonomy names for each level
+tax_tab_16S$Phylum <- gsub("^.{0,4}", "", tax_tab_16S$Phylum)
+tax_tab_16S$Class <- gsub("^.{0,4}", "", tax_tab_16S$Class)
+tax_tab_16S$Order <- gsub("^.{0,4}", "", tax_tab_16S$Order)
+tax_tab_16S$Family <- gsub("^.{0,4}", "", tax_tab_16S$Family)
+tax_tab_16S$Genus <- gsub("^.{0,4}", "", tax_tab_16S$Genus)
+tax_tab_16S$Species<- gsub("^.{0,4}", "", tax_tab_16S$Species)
+#write.csv(tax_tab_16S, "Taxonomy16S_all.csv",row.names=T
+```
+
+Export the .csv count and taxonomy files and manually add a new column for 16S functional groups to the taxonomy file. These new .csv files will be uploaded again for downstream processing. 
+
+```{r}
+tax_new_16S = read.csv(file = "/Users/seananderson/Gomecc-4/Taxonomy16S_all.csv.gz", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # File compressed to reduce size
+count_new_16S = read.csv(file = "/Users/seananderson/Gomecc-4/Count16S_all.csv.gz", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # File compressed to reduce size
+count_new_16S = count_new_16S[ order(match(count_new_16S$ASV, tax_new_16S$ASV)), ] # Match order of ASVs for both files 
+rownames(count_new_16S) <- count_new_16S$ASV # Rename row names
+count_new_16S <- count_new_16S[ -c(1) ]
+rownames(tax_new_16S) <- tax_new_16S$ASV # Rename row names to match count file
+tax_new_16S <- tax_new_16S[ -c(1) ]
+```
+
+Load in metadata. 
+
+```{r}
+sample_info_tab <- read.csv("/Users/seananderson/Gomecc-4/metadata_Aug2023.csv", header=T,row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") 
+row.names(sample_info_tab) <- sample_info_tab[,1]
+sample_info_tab <- sample_info_tab[,-1]
+sample_info_tab$dic = as.numeric(sample_info_tab$dic)
+sample_info_tab$carbonate = as.numeric(sample_info_tab$carbonate)
+```
+
+## Create a phyloseq object
+
+Merge all files into a phyloseq object, rename ASVs to be sequential, remove unwanted groups from the 16S dataset, and add an "unassigned" label to the lowest annotated level for easier interpretation of taxonomy. 
+
+```{r}
+ps1 <- phyloseq(tax_table(as.matrix(tax_new_16S)), otu_table(count_new_16S, taxa_are_rows = T), sample_data(sample_info_tab)) # Create phyloseq object
+
+taxa_names(ps1) <- paste0("bASV", seq(ntaxa(ps1))) # Rename ASVs to be sequential
+
+ps_new_16S = subset_taxa(ps1, Order != "Chloroplast" |is.na(Order)) # The following are groups we want to remove
+ps_new_16S = subset_taxa(ps_new_16S, Family !="Mitochondria" |is.na(Family))
+ps_new_16S = subset_taxa(ps_new_16S, Kingdom !="Eukaryota" |is.na(Kingdom))
+ps_new_16S <- subset_taxa(ps_new_16S, Phylum!="Unassigned", Prune = T)
+
+ps_new_16S = name_na_taxa(ps_new_16S) # Add an "unassigned" label to lowest annotation
+```
+
+## Remove controls
+
+Remove the filtered seawater and Milli-Q controls from the dataset for now. Subset to only include samples with >5,000 sequence reads.
+
+```{r}
+ps_sub_16S <- subset_samples(ps_new_16S, sample_type == "seawater") # Remove controls 
+ps_sub_16S = prune_samples(sample_sums(ps_sub_16S)>=5000, ps_sub_16S) # Remove samples with very low sequence read numbers
+```
+
+## Remove singletons
+
+These are 16S ASVs that were only observed once over all samples. 
+
+```{r}
+ps_filt_16S = filter_taxa(ps_sub_16S, function (x) {sum(x) > 1}, prune=TRUE)
+```
+
+## Estimate number of reads
+
+Estimate the mean, minimum, and maximum sequencing read counts in the 16S dataset after these curating steps. 
+
+```{r}
+ps_min <- min(sample_sums(ps_filt_16S))
+ps_mean <- mean(sample_sums(ps_filt_16S))
+ps_max <- max(sample_sums(ps_filt_16S))
+```
+
+## Set color palettes used for certain figures
+
+```{r}
+nb.cols <- 17
+mycolors <- colorRampPalette(brewer.pal(12, "Paired"))(nb.cols)
+group = carto_pal(12, "Safe")
+```
+
+## Rarefaction curves
+
+Plot rarefaction curves for 16S samples, faceting by categorical depth (surface, DCM, and near bottom) and position on the continental shelf (< 200 m) vs. in open ocean regions (> 200 m). 
+
+```{r fig.width=8, fig.height=5, results =FALSE}
+rare_16S <- suppressWarnings(ggrare(ps_filt_16S, step = 100, plot = FALSE, parallel = FALSE, se = FALSE))
+rare_16S$data$depth_category <- factor(rare_16S$data$depth_category, levels = c("Surface","DCM","Deep"))
+rare_16S + theme(legend.position = "none") + theme_bw()+ theme(legend.position = "right") + facet_wrap(~depth_category + distance,scales="free_y")
+#ggsave(filename = "16S_rare_v2.eps", plot = last_plot(), device = "eps", path = NULL, scale = 1, width = 8, height = 5, dpi = 150)
+```
+
+## Rarefy the samples 
+
+Rarefy 16S samples to an even sampling depth, in this case the minimum read count. 
+
+```{r results =FALSE}
+ps_rare_16S <- rarefy_even_depth(ps_filt_16S, sample.size = min(sample_sums(ps_filt_16S)), rngseed = 714, replace = TRUE, trimOTUs = TRUE, verbose = TRUE)
+```
+
+# Hierarchical clustering
+
+Perform hierarchical clustering based on Aitchison distances. This allowed us to better spatially group 16S samples with depth and their location on the shelf vs. open ocean. 
+
+```{r}
+ps_clr_16S <- microbiome::transform(ps_rare_16S, "clr") # Center log transform rarefied data
+euc_16S = phyloseq::distance(ps_clr_16S, method="euclidean") # Calculate Aitchison distance
+euc.table<-as.matrix(dist(euc_16S)) # Convert to matrix
+```
+
+Cluster samples (Ward's method) and plot average silhouette widths to determine optimal number of clusters.
+
+```{r fig.width=5, fig.height=4}
+spe.ward <- hclust(euc_16S, method = 'ward.D2') # Hierarchical clustering with Ward's method
+fviz_nbclust(euc.table, hcut, method = "silhouette",iter.max=30) 
+#ggsave(filename = "16S_cluster_silhouette_v2.eps", plot = last_plot(), device = "eps", path = NULL, scale = 1, width = 5, height = 4, dpi = 150) 
+```
+
+> Three clusters were found to be optimal. Similar clustering for 18S samples. 
+
+## Split the samples into clusters
+
+Cut the data into the three clusters based on composition. 
+
+> These clusters have already been manually added into the metadata file. 
+
+```{r}
+sub_grp <- cutree(spe.ward, k = 3)
+sub_grp = as.data.frame(sub_grp)
+table(sub_grp)
+```
+
+Plot the type of samples that were found within 16S (and 18S) sample clusters. Clusters largely reflect depth in the water column on the shelf and in the open GOM.
+
+```{r fig.width=5, fig.height=5}
+spatial <- read.csv("/Users/seananderson/Gomecc-4/sample_info.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Load sample sheet
+p <- ggplot(spatial, aes(x=Type, y=Count,fill=Cluster))
+p$data$Type <- factor(p$data$Type, levels = c("Shelf_Surface","Shelf_DCM","Shelf_Bottom","Open_Surface","Open_DCM","Open_Bottom"))
+p+ geom_col(show.legend = FALSE,colour="black") +theme_bw()+
+  facet_grid(Cluster ~ Group) + theme(strip.text.x = element_text(margin = margin(2, 0, 2, 0)))+
+  theme(axis.text.x=element_text(angle=45, hjust=1, color="black")) +scale_y_continuous(expand = c(0, 0),limits=c(0,200))+
+  labs(y="Number of DNA samples")+  scale_fill_manual(values = c("#BB5566","#DDAA33","#004488"))+
+  theme(axis.title.x = element_blank())+ theme(text = element_text(size=9)) 
+#ggsave(filename = "Sample_clusters_spatial_v2.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 5, height = 5, dpi = 150)
+```
+
+> Cluster 1 = photic zone; Cluster 2 = DCM; Cluster 3 = aphotic zone.
+
+Three samples were unexpectedly grouped (e.g., mesopelagic sample in Cluster 1), and so, these three were removed from downstream analysis. Same three samples as in the 18S dataset. 
+
+```{r results =FALSE}
+ps_subset_16S = subset_samples(ps_rare_16S, sample_names(ps_rare_16S) != "GOMECC4_CAPECORAL_Sta140_Deep_C" & sample_names(ps_rare_16S) != "GOMECC4_LA_Sta38_Deep_C"  & sample_names(ps_rare_16S) != "GOMECC4_FLSTRAITS_Sta123_Surface_B")
+```
+
+## Ridgeline plots
+
+Plot the distribution of 16S samples in each cluster by absolute depth. 
+
+```{r fig.width=6, fig.height=2, results = FALSE}
+metadata <- as(sample_data(ps_subset_16S), "data.frame") # Subset metadata
+ggplot(metadata, aes(x = depth_meters, y = cluster_16S, fill = cluster_16S)) + 
+  geom_density_ridges(rel_min_height = 0.005, scale =1,jittered_points=TRUE,point_size = 2,alpha=0.5, point_alpha=1,point_shape=21) + scale_fill_manual(values = c("#BB5566","#DDAA33","#004488"))+ theme(axis.title.y = element_blank()) +scale_x_continuous(name = "Depth (m)",breaks=seq(0,3500,500))+theme_bw()
+#ggsave(filename = "16S_ridge_depth_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 6, height =2, dpi = 150) 
+```
+
+# Prokaryotic diversity
+
+Create new distance matrix after removing three samples.
+
+```{r}
+ps_clr2_16S <- microbiome::transform(ps_subset_16S, "clr") # Center log transform the data
+euc_16S = phyloseq::distance(ps_clr2_16S, method="euclidean") # Aitchison distance
+euc.table<-as.matrix(dist(euc_16S)) # Convert to matrix
+```
+
+Run PERMANOVA to explore significant changes in 16S community composition between transects, categorical depths, or position on the shelf vs. open ocean.
+
+```{r results =FALSE}
+metadata$distance=as.factor(metadata$distance) # Convert to factor
+metadata$region=as.factor(metadata$region) # Convert to factor
+metadata$depth_category=as.factor(metadata$depth_category) # Convert to factor
+adonis2(phyloseq::distance(ps_subset_16S, method="euclidean")~distance, data = metadata,perm=9999) # Run with 9999 permutations
+adonis2(phyloseq::distance(ps_subset_16S, method="euclidean")~region, data = metadata,perm=9999)
+adonis2(phyloseq::distance(ps_subset_16S, method="euclidean")~depth_category, data = metadata,perm=9999)
+```
+
+## PCoA plot
+
+Generate a PCoA plot and color samples by cluster. 
+
+```{r fig.width=7, fig.height=5}
+ordu = ordinate(ps_subset_16S, "PCoA", distance = euc_16S) 
+p = plot_ordination(ps_subset_16S, ordu, color="cluster_16S")
+p$data$cluster_16S <- factor(p$data$cluster_16S, levels = c("Cluster 1","Cluster 2","Cluster 3"))
+p +theme_bw() +   scale_fill_manual(values = c("#BB5566","#DDAA33","#004488"))+
+  geom_point(aes(fill=cluster_16S),size = 5, shape = 21, colour = "black")  + 
+  theme(text = element_text(size=14)) 
+#ggsave(filename = "16S_pcoa_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 7, height = 5, dpi = 150)
+```
+
+## Shannon diversity and richness 
+
+Estimate richness (# of ASVs) and Shannon diversity index between clusters for 16S samples. 
+Use Wilcoxon tests to determine significant differences in these measures between clusters. 
+
+```{r results =FALSE}
+rich_16S <- estimate_richness(ps_subset_16S, measures=c("Observed", "Shannon")) # Estimate richness
+clus = sample_data(ps_subset_16S)$cluster_16S # Subset out cluster
+region = sample_data(ps_subset_16S)$region # Subset out region
+rich_all <- data.frame(rich_16S,region,clus) # Merge richness estimates with cluster and region
+df2 = melt(rich_all) # Melt the data format for plotting
+levels(df2$variable)[match("Observed",levels(df2$variable))] <- "# of 16S ASVs" # Change label
+levels(df2$variable)[match("Shannon",levels(df2$variable))] <- "Shannon diversity index"
+```
+
+Plot richness and diversity in each cluster.
+
+```{r results =FALSE, fig.width=9, fig.height=5}
+p <- ggplot(df2, aes(x=factor(clus), y=value, fill=clus))
+p + geom_boxplot(alpha = 1, outlier.shape = NA, color = "black") + theme_bw() + 
+  theme(text = element_text(size=14)) + ylab("Diversity values") + theme(legend.position="right") + scale_fill_manual(values = c("#BB5566","#DDAA33","#004488"))+
+  geom_point(aes(fill=clus), size =5, shape = 21, colour = "black", position=position_jitterdodge())+ theme(axis.text.x=element_text(angle=45, hjust=1, color="black"))+
+  theme(axis.title.x =element_blank()) +
+  stat_compare_means(method= "wilcox.test",comparisons = list(c("Cluster 1", "Cluster 2"),c("Cluster 1","Cluster 3"), c("Cluster 2","Cluster 3")), label = "p.signif",     exact = TRUE)+ facet_wrap(~variable,scales="free_y")
+#ggsave(filename = "Diversity_16S_cluster_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 9, height =5, dpi = 150) 
+```
+
+Plot alpha diversity metrics within each cluster and with respect to sampling transects. 
+Add regression lines (loess curves) to better observe spatial patterns. 
+
+```{r results = FALSE, fig.width=15, fig.height=5}
+p <- ggplot(df2, aes(x=factor(region), y=value, fill=region))
+p$data$region <- factor(p$data$region, levels = c("27N", "FLSTRAITS","CAPECORAL", "TAMPA", "PANAMACITY", "PENSACOLA", "LA", "GALVESTON", "PAISNP", "BROWNSVILLE", "TAMPICO", "VERACRUZ", "CAMPECHE", "MERIDA", "YUCATAN", "CATOCHE", "CANCUN")) # Set the transect order
+p + geom_boxplot(alpha = 0.5, outlier.shape = NA, color = "black") + theme_bw() +  geom_smooth(method = "loess", se=TRUE, color="black", aes(group=1))+
+  theme(text = element_text(size=14)) + ylab("Diversity values") + theme(legend.position="right") + scale_fill_manual(values=mycolors)+
+  geom_point(aes(fill=region), size =3, shape = 21, colour = "black", position=position_jitterdodge(),show.legend=FALSE)+
+  theme(axis.text.x=element_text(angle=45, hjust=1, color="black")) + theme(axis.title.x =element_blank()) + facet_wrap(clus ~ variable,scales ="free_y")
+#ggsave(filename = "Diversity_16S_region_v1.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 20, height =6, dpi = 150) 
+```
+
+# Prokaryotic functional groups
+
+Display 16S functional groups in each cluster. The percent of each functional group represents the mean proportion of reads attributed to that group. 
+
+```{r fig.width=8, fig.height=5, results = FALSE}
+dataset <- phyloseq2meco(ps_subset_16S)
+t1 <- trans_abund$new(dataset = dataset, taxrank = "Category", ntaxa = 2, groupmean = "cluster_16S")
+t1$plot_donut()
+```
+
+# Prokaryotic taxonomy
+
+Plot mean 16S relative abundance (%) stacked bar plots for each cluster and transect on GOMECC-4. We focused on the top 12 most relatively abundant Bacteria and Archaea at the order level across all samples. Less abundant organisms were grouped into an "others" category. Taxonomy was assigned to ASVs with SILVA (Version 138.1).
+
+```{r fig.width=14, fig.height=5, results = FALSE}
+tax_table(ps_subset_16S) <- tax_table(ps_subset_16S)[,2:8] # Subset out the functional category column and focus on taxonomy levels
+barplot <- ps_subset_16S %>%
+  tax_glom(taxrank = "Order", NArm=FALSE) %>% # Agglomerate to order level
+  transform_sample_counts(function(OTU) 100* OTU/sum(OTU)) %>% # Transform to relative abundance
+  psmelt() %>% # Melt data
+  group_by(region,Order,cluster_16S) %>% # Group by cluster and transect
+  summarise_at("Abundance", .funs = mean) # Summarize at the mean
+
+focus <- c("SAR11_clade", "Synechococcales", "Marinimicrobia_(SAR406_clade)", "Nitrosopumilales", "SAR86_clade","Flavobacteriales","Actinomarinales","Marine_Group_II","Rhodospirillales","SAR324_clade(Marine_group_B)","Thiomicrospirales","Puniceispirillales") # Focus on top 12 groups
+barplot$Order <- ifelse(barplot$Order %in% focus, barplot$Order, "Others") # Others category for plotting
+barplot_16S = barplot # Rename
+barplot_16S$Order<- as.character(barplot_16S$Order) # Convert to character
+
+p <- ggplot(data=barplot_16S, aes(x=region, y=Abundance, fill=Order))
+p$data$Order <- factor(p$data$Order, levels = c("Others","Puniceispirillales","Thiomicrospirales","SAR324_clade(Marine_group_B)","Rhodospirillales","Marine_Group_II","Actinomarinales","Flavobacteriales", "SAR86_clade","Nitrosopumilales","Marinimicrobia_(SAR406_clade)", "Synechococcales","SAR11_clade" )) # Set order of groups in the plot
+p$data$region <- factor(p$data$region, levels = c("27N", "FLSTRAITS","CAPECORAL", "TAMPA", "PANAMACITY", "PENSACOLA", "LA", "GALVESTON", "PAISNP", "BROWNSVILLE", "TAMPICO", "VERACRUZ", "CAMPECHE", "MERIDA", "YUCATAN", "CATOCHE", "CANCUN")) # Set order of transects
+p + geom_bar(aes(), stat="identity", position="fill", width = 0.9)+
+  scale_y_continuous(expand = c(0, 0))+ geom_hline(yintercept=0) + theme_bw()+ 
+  scale_fill_manual(values= rev(c("#88CCEE", "#CC6677", "#44AA99" , "#882255" , "#DDCC77","#332288" , "#117733","#999933" , "#AA4499","#F5793A","#F7CDA4", "#A5CFCC","#757575")))+ theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1)) + 
+  theme(legend.position="right") +  theme(text = element_text(size = 12)) + guides(fill=guide_legend(nrow=14, ncol=1)) + 
+  facet_wrap(~cluster_16S,scales="free_x")  +labs(y = "Relative abundance (%)")
+#ggsave(filename = "16S_stacked_class.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 14, height = 5, dpi = 150) 
+```
+
+## Zoom into cyanobacteria
+
+Cyanobacteria are a major group in the GOM and species are known to occupy distinct environmental niches. Here, we look at the top genus level groups in cyanobacteria in the photic zone. 
+
+**Note that strain level information for cyanobacteria, including *Prochlorococcus* and *Synechococcus*, is likely incorrect in the SILVA 138.1 database. As a result, we identify these groups to genus level to be conservative in final plots, realizing that there is ecotype level variation that we cannot infer with this data.**
+
+```{r fig.width=8, fig.height=5, results = FALSE}
+ps_clus1 = subset_samples(ps_subset_16S, cluster_16S=="Cluster 1") # Subset to Cluster 1
+ps_syne = subset_taxa(ps_clus1, Order=="Synechococcales") # Subset to cyanobacteria
+dataset <- phyloseq2meco(ps_syne) # Convert phyloseq to microeco object for plotting in that package
+t1 <- trans_abund$new(dataset = dataset, taxrank = "Genus", ntaxa = 4,groupmean="region") # Subset to top 4 families and group them by transect
+g1 <- t1$plot_bar(bar_type = "full", use_alluvium = FALSE, clustering = FALSE,barwidth = NULL, xtext_size = 12, color_values = group,others_color = "#757575",
+order_x = c("27N", "FLSTRAITS","CAPECORAL", "TAMPA", "PANAMACITY", "PENSACOLA", "LA", "GALVESTON", "PAISNP", "BROWNSVILLE", "TAMPICO", "VERACRUZ", "CAMPECHE", "MERIDA", "YUCATAN", "CATOCHE", "CANCUN")) # Order transects
+g1 + geom_col(colour = "black") + labs(y="Relative abundance (%)")+theme(text = element_text(size = 12))+theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))
+#ggsave(filename = "16S_stacked_cyano_clus1.eps", plot = last_plot(), device = "eps", path = NULL, scale = 1, width = 10, height = 5, dpi = 150)
+```
+
+## Taxonomy tree maps
+
+Plot taxonomy tree maps for the major 16S groups to explore dynamics at multiple taxonomic levels. Prepare the data and subset to each cluster.
+
+```{r}
+ps <- tax_glom(ps_subset_16S, "Genus", NArm=FALSE) # Agglomerate to genus level
+x1 = speedyseq::psmelt(ps) # Melt the data
+focus <- c("Proteobacteria", "Cyanobacteria", "Marinimicrobia_(SAR406_clade)", "Crenarchaeota", "Bacteroidota", "Actinobacteriota") # Focus on top phylum level groups
+x1$Phylum <- ifelse(x1$Phylum %in% focus, x1$Phylum, "Others") # Others category for plotting
+x1$Phylum <- factor(x1$Phylum, levels = c("Actinobacteriota", "Bacteroidota", "Crenarchaeota","Cyanobacteria","Marinimicrobia_(SAR406_clade)","Proteobacteria","Others")) # Set order for plotting
+cluster1 <- x1[x1[["cluster_16S"]]== "Cluster 1", ] # Subset to Cluster 1
+cluster2 <- x1[x1[["cluster_16S"]]== "Cluster 2", ] # Subset to Cluster 2
+cluster3 <- x1[x1[["cluster_16S"]]== "Cluster 3", ] # Subset to Cluster 3
+```
+
+Plot 16S tree map - Cluster 1 (photic zone).
+
+```{r results = FALSE,fig.width=12, fig.height=5}
+#pdf("Cluster1_treemap_16S_v2.pdf", width = 12, height = 4)
+treemap(dtf = cluster1,
+        title = "Cluster 1 (2-99 m)", 
+        algorithm = "pivotSize", border.lwds = c(2,0.5,0.1),
+        border.col = c("black", "black", "black"),
+        mapping = c(0,0,0),
+        index = c("Order", "Genus"),
+        vSize = "Abundance",
+        vColor = "Phylum",
+        palette = "Dark2",
+        type="categorical",
+        fontsize.labels=c(10,8),
+        fontface.labels=c(2,1),
+        fontcolor.labels=c("white","white"),
+        bg.labels=255, 
+        position.legend = "bottom",
+        align.labels=list(
+          c("left", "top"), 
+          c("center", "center")),
+        inflate.labels=F,
+        overlap.labels=0.8,
+        lowerbound.cex.labels = 0.2,
+        force.print.labels = F) 
+#dev.off()
+```
+
+Plot 16S tree map - Cluster 2 (DCM). 
+
+```{r results = FALSE,fig.width=12, fig.height=5}
+#pdf("Cluster2_treemap_16S_v2.pdf", width = 12, height = 4)
+treemap(dtf = cluster2,
+        title = "Cluster 2 (2-124 m)", 
+        algorithm = "pivotSize", border.lwds = c(2,0.5,0.1),
+        border.col = c("black", "black", "black"),
+        mapping = c(0,0,0),
+        index = c("Order", "Genus"),
+        vSize = "Abundance",
+        vColor = "Phylum",
+        palette = "Dark2",
+        type="categorical",
+        fontsize.labels=c(10,8),
+        fontface.labels=c(2,1),
+        fontcolor.labels=c("white","white"),
+        bg.labels=255, 
+        position.legend = "bottom",
+        align.labels=list(
+          c("left", "top"), 
+          c("center", "center")),
+        inflate.labels=F,
+        overlap.labels=0.8,
+        lowerbound.cex.labels = 0.2,
+        force.print.labels = F) 
+#dev.off()
+```
+
+Plot 16S tree map - Cluster 3 (aphotic zone). 
+
+```{r results = FALSE,fig.width=12, fig.height=5}
+#pdf("Cluster3_treemap_16S_v2.pdf", width = 12, height = 4)
+treemap(dtf = cluster3,
+        title = "Cluster 3 (135-3326 m)", 
+        algorithm = "pivotSize", border.lwds = c(2,0.5,0.1),
+        border.col = c("black", "black", "black"),
+        mapping = c(0,0,0),
+        index = c("Order", "Genus"),
+        vSize = "Abundance",
+        vColor = "Phylum",
+        palette = "Dark2",
+        type="categorical",
+        fontsize.labels=c(10,8),
+        fontface.labels=c(2,1),
+        fontcolor.labels=c("white","white"),
+        bg.labels=255, 
+        position.legend = "bottom",
+        align.labels=list(
+          c("left", "top"), 
+          c("center", "center")),
+        inflate.labels=F,
+        overlap.labels=0.8,
+        lowerbound.cex.labels = 0.2,
+        force.print.labels = F) 
+#dev.off()
+```
+
+# Generalized linear models
+
+Construct generalized linear models (GLMs) for each of the major 16S taxa at the order level, focusing on Cluster 1 samples (photic zone). We focused on Cluster 1 because most carbonate chemistry variables in Clusters 2-3 were collinear with each other. We also construct GLMs for the two major cyanobacterial groups, *Prochlorococcus* and *Synechococcus*. 
+
+## Format the data
+
+First, for order level 16S groups.
+
+```{r results = FALSE}
+order_16S <- tax_glom(ps_subset_16S, taxrank = "Order",NArm = FALSE) # Aggregate at the order level
+order_16S = transform_sample_counts(order_16S, function(OTU) 100* OTU/sum(OTU)) # Conver to relative abundance 
+x1 = psmelt(order_16S) # Melt the data
+cluster1 <- x1[x1[["cluster_16S"]]== "Cluster 1", ] # Subset to Cluster 1
+glm.1 = cluster1 %>% # Group the data based on class and preserve sample replication for the models
+  dplyr::group_by(station,depth_category, Order,replicate) %>%
+  summarise(temp=mean(temp),
+            salinity= mean(salinity),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
+            .groups = 'drop')
+```
+
+Now for the two genus level cyanobacteria groups. 
+
+```{r results = FALSE}
+genus_16S <- tax_glom(ps_subset_16S, taxrank = "Genus",NArm = FALSE) # Aggregate at the genus level
+genus_16S = transform_sample_counts(genus_16S, function(OTU) 100* OTU/sum(OTU)) # Relative abundance 
+x2 = psmelt(genus_16S) # Melt the data
+cluster1 <- x2[x2[["cluster_16S"]]== "Cluster 1", ] # Subset to Cluster 1
+glm.2 = cluster1 %>% # Group the data based on class and preserve sample replication for the models
+  dplyr::group_by(station,depth_category, Genus,replicate) %>%
+  summarise(temp=mean(temp),
+            salinity = mean(salinity),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
+            .groups = 'drop')
+```
+
+## Select initial variables
+
+Select variables that are not collinear. Use Spearman correlations and variance inflation factors (VIFs) to find non-collinear variables. 
+
+```{r}
+df1 = glm.1[,c(5:19)] # Subset to include environmental variables
+df1 = na.omit(df1) # Omit any rows that have NA values
+correlations = cor(df1, method = "spearman") # Perform Spearman correlations to assess collinearity
+#write.csv(correlations, "Cluster1_corr_16S.csv",row.names=T) # Write .csv file
+
+df1_filt = glm.1[,c(3,5:9,12,13,16,20)] # Initial list of variables that were not collinear (Spearman < 0.7 or > -0.7)
+df1_filt = na.omit(df1_filt) # Omit any rows that have NA values
+model1 <- lm(Abundance ~., data = df1_filt) # Test model for VIFs
+car::vif(model1) # Display VIFs from test model - VIFs should be < 10
+
+# Repeat this process for the genus level groups
+df1_filt2 = glm.2[,c(3,5:9,12,13,16,20)]
+df1_filt2 = na.omit(df1_filt2) # Omit any rows that have NA values
+model1 <- lm(Abundance ~., data = df1_filt2)
+car::vif(model1) # VIFs look good
+```
+
+## Spearman correlations in Clusters 2-3
+
+```{r results = FALSE}
+cluster2 <- x1[x1[["cluster_16S"]]== "Cluster 2", ] # Subset to Cluster 2
+clus.2 = cluster2 %>% # Group the data based on class and preserve sample replication for the models
+  dplyr::group_by(station,depth_category, Class,replicate) %>%
+  summarise(temp=mean(temp),
+            salinity = mean(salinity),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
+     .groups = 'drop')
+
+cluster3 <- x1[x1[["cluster_16S"]]== "Cluster 3", ] # Subset to Cluster 3
+clus.3 = cluster3 %>% # Group the data based on class and preserve sample replication for the models
+  dplyr::group_by(station,depth_category, Class,replicate) %>%
+  summarise(temp=mean(temp),
+            salinity = mean(salinity),
+            oxygen = mean(oxygen),
+            phosphate = mean(phosphate),
+            nitrate = mean(nitrate),
+            nitrite = mean(nitrite),
+            silicate = mean(silicate),
+            nh4 = mean(nh4),
+            pH_corrected = mean(pH_corrected),
+            total_alkalinity = mean(total_alkalinity),
+            OMEGA_AR = mean(OMEGA_AR),
+            dic = mean(dic),
+            pCO2_corrected = mean(pCO2_corrected),
+            carbonate = mean(carbonate),
+            fluorescence = mean(fluorescence),
+            Abundance = mean(Abundance),
+     .groups = 'drop')
+
+# Spearman Cluster 2
+df2 = clus.2[,c(5:19)] # Subset to include environmental variables
+df2 = na.omit(df2) # Omit any rows that have NA values
+correlations2 = cor(df2, method = "spearman") # Perform Spearman correlations to assess collinearity
+#write.csv(correlations2, "Cluster2_corr_16S.csv",row.names=T) # Write .csv file
+
+# Spearman Cluster 3
+df3 = clus.3[,c(5:19)] # Subset to include environmental variables
+df3 = na.omit(df3) # Omit any rows that have NA values
+correlations3 = cor(df3, method = "spearman") # Perform Spearman correlations to assess collinearity
+#write.csv(correlations3, "Cluster3_corr_16S.csv",row.names=T) # Write .csv file
+```
+
+More variables in Clusters 2-3 are collinear, so stick with Cluster 1 models. Spearman values for Clusters 1-3 are in Table S1. 
+
+> The following variables were selected for initial models: temperature, oxygen, salinity, phosphate, nitrate, ammonium, DIC, and pH.
+
+Subset to the taxonomic groups of interest. 
+
+```{r results = FALSE}
+df_sar <- df1_filt[df1_filt[["Order"]]== "SAR11_clade", ]
+df_sar86 <- df1_filt[df1_filt[["Order"]]== "SAR86_clade", ]
+df_flavo <- df1_filt[df1_filt[["Order"]]== "Flavobacteriales", ]
+df_synecho <- df1_filt2[df1_filt2[["Genus"]]== "Synechococcus_CC9902", ] # Synechococcus
+df_prochlo <- df1_filt2[df1_filt2[["Genus"]]== "Prochlorococcus_MIT9313", ] # Prochlorococcus
+```
+
+## *Synechococcus* GLM
+
+Run model based on Poisson and negative binomial distribution. Compare models and select the better option using AIC values. 
+
+```{r results = FALSE}
+df_synecho$Abundance = round(df_synecho$Abundance) # Round abundance
+
+model_synecho <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_synecho,family=poisson) # Poisson model
+summary(model_synecho) # Summary
+
+model_synecho_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_synecho) # NB model
+summary(model_synecho_nb) # Summary
+
+compare_performance(model_synecho,model_synecho_nb, verbose = FALSE) # Compare the two models - NB has lower AIC
+```
+
+> Use negative binomial for *Synechococcus*.
+
+Select significant environmental variables to find the best model fit. 
+
+```{r results = FALSE}
+model_synecho_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_synecho) # Run NB model again
+summary(model_synecho_nb)
+stepAIC(model_synecho_nb, direction="both", k = 3.8415) # Stepwise AIC selection
+
+model_synecho_sig <- glm.nb(Abundance ~ oxygen +  nitrate + pH_corrected + dic, data = df_synecho) # Final model with significant factors
+summary(model_synecho_sig) # Summary
+```
+
+Check model performance for *Synechococcus*.
+
+```{r results = FALSE}
+performance::r2(model_synecho_sig) # Pseudo R2
+check_overdispersion(model_synecho_sig) # Overdispersion check
+check_zeroinflation(model_synecho_sig) # Zero-inflation check
+model_performance(model_synecho_sig) # AIC, R2, RMSE, and other scores
+check_residuals(model_synecho_sig) # Uniform distribution check
+#check_model(model_synecho_sig,plot_type = 2) # All model performance plots
+```
+
+Split and train relative abundance data to test the fit of the final *Synechococcus* model. Confirm fit with Pearson correlation.  
+
+```{r fig.width=5, fig.height=4, results = FALSE}
+set.seed(1234) # Randomization
+synecho_split <- df_synecho %>% # Split the data 80:20
+  split(if_else(runif(nrow(.)) <= 0.8, "train", "test"))
+map_int(synecho_split, nrow)
+
+model_synecho_train <- glm.nb(Abundance ~  oxygen + pH_corrected + nitrate  + dic, data = synecho_split$train) # NB model with 80% of data
+test = synecho_split$test
+obs = test$Abundance
+
+m_nb_pred <- predict(model_synecho_train, synecho_split$test, type = "response") %>% # Predict the other 20% and compare with real test values
+  tibble(family = "Negative Binomial", pred = .) %>% 
+  bind_cols(obs)
+
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "Synechococcus GLM model fit") +
+  geom_point(fill="#732633",size = 5, shape = 21, colour = "black") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw()         
+p
+#ggsave(filename = "Synecho_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
+```
+
+## *Prochlorococcus* GLM
+
+Run through similar steps with *Prochlorococcus* to find best model. 
+
+```{r results = FALSE}
+df_prochlo$Abundance = round(df_prochlo$Abundance) # Round abundance
+
+model_prochlo <- glm(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_prochlo,family=poisson) # Poisson model
+summary(model_prochlo) # Summary
+
+model_prochlo_nb <- glm.nb(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_prochlo) # NB model
+summary(model_prochlo_nb)
+
+compare_performance(model_prochlo,model_prochlo_nb, verbose = FALSE) # Compare the two models - NB has lower AIC
+```
+
+> Use negative binomial for *Prochlorococcus*.
+
+Select environmental variables for the final model.
+
+```{r results = FALSE}
+model_prochlo_nb <- glm.nb(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_prochlo) # Run NB model again
+summary(model_prochlo_nb)
+stepAIC(model_prochlo_nb, direction="both", k = 3.8415) # Stepwise AIC selection
+
+model_prochlo_sig <- glm.nb(Abundance ~  salinity + phosphate + nitrate + pH_corrected, data = df_prochlo) # Final NB model with significant factors
+summary(model_prochlo_sig)
+```
+
+Check model performance for *Prochlorococcus*.
+
+```{r results = FALSE}
+performance::r2(model_prochlo_sig)
+check_overdispersion(model_prochlo_sig)
+check_zeroinflation(model_prochlo_sig)
+check_residuals(model_prochlo_sig)
+model_performance(model_prochlo_sig)
+#check_model(model_prochlo_sig,plot_type=2)
+```
+
+Split and train relative abundance data to test the fit of the final *Prochlorococcus* model. Same steps as with *Synechococcus*, split data 80:20. 
+
+```{r fig.width=5, fig.height=4,results = FALSE}
+set.seed(1234) # Randomization
+prochlo_split <- df_prochlo %>% 
+  split(if_else(runif(nrow(.)) <= 0.8, "train", "test"))
+map_int(prochlo_split, nrow)
+
+model_prochlo_train <- glm.nb(Abundance ~  salinity + phosphate + pH_corrected + nitrate, data = prochlo_split$train) # NB model
+test = prochlo_split$test
+obs = test$Abundance
+
+m_nb_pred <- predict(model_prochlo_train, prochlo_split$test, type = "response") %>% # Predict other 20% and compare with real values
+  tibble(family = "Negative Binomial", pred = .) %>% 
+  bind_cols(obs)
+
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "Prochloroccus GLM model fit") +
+  geom_point(fill="#CC6677",size = 5, shape = 21, colour = "black") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw()         
+p
+#ggsave(filename = "Prochlo_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
+```
+
+## SAR11 model
+
+Run through similar steps with SAR11.
+
+```{r results = FALSE}
+df_sar$Abundance = round(df_sar$Abundance) # Round abundance
+
+model_sar <- glm(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar,family=poisson) # Poisson model
+summary(model_sar)
+
+model_sar_nb <- glm.nb(Abundance ~  temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar) # NB model
+summary(model_sar_nb) # Summary
+
+compare_performance(model_sar,model_sar_nb, verbose = FALSE) # Compare the two models - Poisson has lower AIC
+```
+
+> Use Poisson model for SAR11. 
+
+Select final model with only significant variables. 
+
+```{r results = FALSE}
+model_sar <- glm(Abundance ~temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar,family=poisson) # Run Poisson model again
+summary(model_sar)
+stepAIC(model_sar, direction="both", k = 3.8415) # Stepwise AIC for factor selection
+
+model_sar_sig <- glm(Abundance ~ temp + oxygen + nh4 + dic, data = df_sar,family=poisson) # Final model
+summary(model_sar_sig) # Summary
+```
+
+Check model performance for SAR11. Same checks as other groups. 
+
+```{r fig.width=7, fig.height=4,results = FALSE}
+performance::r2(model_sar_sig)
+check_overdispersion(model_sar_sig)
+check_zeroinflation(model_sar_sig)
+check_residuals(model_sar_sig)
+model_performance(model_sar_sig)
+check_model(model_sar_sig,check="pp_check",type="density") # Predictive plot
+#check_model(model_sar_sig) # All model performance plots
+```
+
+Split and train relative abundance data to test the fit of the final SAR11 model. 
+
+```{r fig.width=5, fig.height=4,results = FALSE}
+set.seed(1234) # Randomization
+sar_split <- df_sar %>% # Split data
+  split(if_else(runif(nrow(.)) <= 0.8, "train", "test"))
+map_int(sar_split, nrow)
+
+model_sar_train <- glm(Abundance ~  temp + oxygen + dic + nh4, data = sar_split$train,family=poisson) # Poisson model
+test = sar_split$test
+obs = test$Abundance
+
+m_nb_pred <- predict(model_sar_train, sar_split$test, type = "response") %>% # Predict
+  tibble(family = "Poisson", pred = .) %>% 
+  bind_cols(obs)
+
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T, size = 3, add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "SAR11 clade GLM model fit") +
+  geom_point(fill="#88CCEE",size = 5, shape = 21, colour = "black") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw()         
+p
+#ggsave(filename = "SAR11_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
+```
+
+## SAR86 model
+
+Repeat steps for SAR86. 
+
+```{r results = FALSE}
+df_sar86$Abundance = round(df_sar86$Abundance) # Round abundance
+
+model_sar86 <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar86,family=poisson) # Poisson model
+summary(model_sar86)
+
+model_sar86_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar86) # NB model
+summary(model_sar86_nb)
+
+compare_performance(model_sar86,model_sar86_nb, verbose = FALSE) # Compare the two models - Poisson has lower AIC
+```
+
+> Use Poisson model for SAR86 as well. 
+
+Select final model with only significant variables. 
+
+```{r results = FALSE}
+model_sar86 <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_sar86,family=poisson) # Run Poisson model again
+summary(model_sar86)
+stepAIC(model_sar86, direction="both", k = 3.8415) # Stepwise selection
+
+model_sar86_sig <- glm(Abundance ~ temp  + oxygen + nh4 + pH_corrected + dic , data = df_sar86,family=poisson) # Final model
+summary(model_sar86_sig)
+```
+
+Check model performance.
+
+```{r results = FALSE}
+performance::r2(model_sar86_sig)
+check_overdispersion(model_sar86_sig)
+check_zeroinflation(model_sar86_sig)
+check_residuals(model_sar86_sig)
+model_performance(model_sar86_sig)
+#check_model(model_sar86_sig,plot_type=2)
+```
+
+Split and train relative abundance data to test the fit of the final SAR86 model. 
+
+```{r fig.width=5, fig.height=4,results = FALSE}
+set.seed(1234) # Randomization
+sar86_split <- df_sar86 %>% 
+  split(if_else(runif(nrow(.)) <= 0.8, "train", "test"))
+map_int(sar86_split, nrow)
+
+model_sar86_train <- glm(Abundance ~  temp + oxygen + nh4 + pH_corrected + dic, data = sar86_split$train,family=poisson) # Poisson model
+test = sar86_split$test
+obs = test$Abundance
+
+m_nb_pred <- predict(model_sar86_train, sar86_split$test, type = "response") %>% 
+  tibble(family = "Poisson", pred = .) %>% 
+  bind_cols(obs)
+
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T,  point = "FALSE",add.params = list(color = "black", fill = "darkgray"), add = "reg.line", conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "SAR86 clade GLM model fit") +
+  geom_point(fill="#DDCC77",size = 5, shape = 21, colour = "black", position="jitter") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw() 
+p
+#ggsave(filename = "SAR86_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
+```
+
+## Flavobacteriales model
+
+Repeat steps for Flavobacteriales. 
+
+```{r results = FALSE}
+df_flavo$Abundance = round(df_flavo$Abundance) # Round abundance
+
+model_flavo <- glm(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_flavo,family=poisson) # Poisson model
+summary(model_flavo) # Summary
+
+model_flavo_nb <- glm.nb(Abundance ~ temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_flavo) # NB model
+summary(model_flavo_nb)
+
+compare_performance(model_flavo,model_flavo_nb, verbose = FALSE) # Compare the two models - Poisson has lower AIC
+```
+
+> Use Poisson model for Flavobacteriales. 
+
+Select final model with only significant variables. 
+
+```{r results = FALSE}
+model_flavo <- glm(Abundance ~temp  + oxygen + salinity + phosphate + nh4 + nitrate + pH_corrected + dic, data = df_flavo,family=poisson) # Run Poisson model again
+summary(model_flavo)
+stepAIC(model_flavo, direction="both", k = 3.8415) # Stepwise selection of factors
+
+model_flavo_sig <- glm(Abundance ~ salinity + dic , data = df_flavo,family=poisson) # Final model
+summary(model_flavo_sig)
+```
+
+Check model performance.
+
+```{r results = FALSE}
+performance::r2(model_flavo_sig)
+check_overdispersion(model_flavo_sig)
+check_zeroinflation(model_flavo_sig)
+model_performance(model_flavo_sig)
+check_residuals(model_flavo_sig)
+#check_model(model_flavo_sig,plot_type = 2)
+```
+
+Split and train relative abundance data to test the fit of the final Flavobacteriales model. 
+
+```{r fig.width=5, fig.height=4,results = FALSE}
+set.seed(1234) # Randomization
+flavo_split <- df_flavo %>% 
+  split(if_else(runif(nrow(.)) <= 0.8, "train", "test"))
+  map_int(flavo_split, nrow)
+
+model_flavo_train <- glm(Abundance ~ salinity + dic, data = flavo_split$train,family=poisson) # Poisson model
+test = flavo_split$test
+obs = test$Abundance
+
+m_nb_pred <- predict(model_flavo_train, flavo_split$test, type = "response") %>% 
+  tibble(family = "Poisson", pred = .) %>% 
+  bind_cols(obs)
+
+p <- ggscatter(m_nb_pred, x = "pred", y = "...3", cor.method = "pearson", cor.coef =T,  point = "FALSE",add.params = list(color = "black", fill = "darkgray"), add = "reg.line",   conf.int = TRUE, ylab = "Test relative abundance (%)", xlab = "Predicted relative abundance (%)",title = "Flavobacteriales GLM model fit") +
+  geom_point(fill="#332288",size = 5, shape = 21, colour = "black", position="jitter") + theme(legend.position = "right") + theme(text = element_text(size = 18))  + theme_bw() 
+p
+#ggsave(filename = "Flavo_model_test_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width =5, height = 4, dpi = 150)
+```
+
+## Scale model coefficients
+
+Model coefficients from all final 16S GLMs need to be scaled to plot them on one single plot.
+
+```{r}
+df_synecho$oxygen <- scale(df_synecho$oxygen) # Scale model variables for Synechococcus
+df_synecho$nitrate <- scale(df_synecho$nitrate)
+df_synecho$dic <- scale(df_synecho$dic)
+df_synecho$pH_corrected <- scale(df_synecho$pH_corrected)
+
+df_prochlo$phosphate <- scale(df_prochlo$phosphate) # Scale model variables for Prochlorococcus
+df_prochlo$pH_corrected <- scale(df_prochlo$pH_corrected)
+df_prochlo$nitrate <- scale(df_prochlo$nitrate)
+df_prochlo$salinity <- scale(df_prochlo$salinity)
+
+df_sar$dic <- scale(df_sar$dic) # Scale model variables for SAR11
+df_sar$nh4 <- scale(df_sar$nh4)
+df_sar$oxygen <- scale(df_sar$oxygen)
+df_sar$temp <- scale(df_sar$temp)
+
+df_sar86$temp <- scale(df_sar86$temp) # Scale model variables for SAR86
+df_sar86$oxygen <- scale(df_sar86$oxygen)
+df_sar86$nh4 <- scale(df_sar86$nh4)
+df_sar86$dic <- scale(df_sar86$dic)
+df_sar86$pH_corrected <- scale(df_sar86$pH_corrected)
+
+df_flavo$salinity <- scale(df_flavo$salinity) # Scale model variables for Flavobacteriales
+df_flavo$dic <- scale(df_flavo$dic)
+```
+
+Run the final models again with scaled parameters. 
+
+```{r}
+model_Synechococcus <- glm.nb(Abundance ~  oxygen + pH_corrected + dic + nitrate, data = df_synecho)
+model_Prochlorococcus <- glm.nb(Abundance ~  nitrate + pH_corrected + phosphate + salinity, data = df_prochlo)
+model_SAR11 <- glm(Abundance ~ temp + oxygen + nh4 + dic, data = df_sar,family=poisson)
+model_SAR86 <- glm(Abundance ~ temp + oxygen + nh4 + dic + pH_corrected, data = df_sar86,family=poisson)
+model_Flavobacteriales <- glm(Abundance ~  salinity + dic, data = df_flavo,family=poisson)
+```
+
+Plot the model coefficients.
+
+```{r}
+p <- multiplot(model_Synechococcus, model_Prochlorococcus,model_SAR11,model_SAR86,model_Flavobacteriales, intercept=FALSE,title = 'Model Effect on 16S groups',decreasing = F,shape = 16,pointSize = 4,sort=NULL,dodgeHeight = 0.5, outerCI = 2) 
+p$data$Coefficient <- factor(p$data$Coefficient, levels = c( "temp","oxygen", "salinity", "nh4","phosphate","nitrate","pH_corrected", "dic")) # Order variables on y-axis
+p + theme(legend.position = 'bottom') + xlim(-1.5,1.5) + scale_color_manual(values=c("#332288","#CC6677","#88CCEE","#DDCC77","#732633")) + theme_bw() + theme(text = element_text(size = 12)) 
+#ggsave(filename = "16S_glm_coefficients_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 6, height = 5, dpi = 150)
+```
+
+Focus on certain variables from final 16S models, with an emphasis on carbonate chemistry parameters (DIC and pH) and temperature. In some cases, the variable was not significant to a given model, and so, the confidence interval and regression line were omitted. 
+
+```{r fig.width=8, fig.height=12}
+# Synechococcus
+dic_synecho = plot_model(model_synecho_sig,type="pred",terms=c("dic"), colors ="#732633",alpha = .3,dot.size=1,dot.alpha=1,show.data = T,jitter=0.1)
+fig1 <- dic_synecho +  ylab("Predicted response") + xlab("DIC")+ theme_bw()+
+  geom_line(lwd=0.5,colour="#732633",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig1)
+
+temp_synecho = plot_model(model_synecho_nb,type="pred",terms=c("temp"),colors ="#FFFFFF" ,rawdata = TRUE,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1,ci.lvl = NA)
+fig2 <- temp_synecho +  ylab("Predicted response") + xlab("Temperature")+  theme_bw()+
+  geom_line(lwd=0,colour="#FFFFFF") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("")
+#plot(fig2)
+
+pH_synecho = plot_model(model_synecho_sig,type="pred",terms=c("pH_corrected"),colors ="#732633" ,show.data = T,alpha = 0.3,dot.size=1,dot.alpha=1,dot.alpha=1,jitter=0.1)
+fig3 <- pH_synecho +  ylab("Predicted response") + xlab("pH")+ theme_bw()+
+  geom_line(lwd=0.5,colour="#732633",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig3)
+
+# Prochlorococcus
+dic_prochlo = plot_model(model_prochlo_nb,type="pred",terms=c("dic"), colors ="#FFFFFF",alpha = .3,dot.size=1,dot.alpha=1,show.data = T,jitter=0.1,ci.lvl = NA)
+fig4 <- dic_prochlo +  ylab("Predicted response") + xlab("DIC")+ theme_bw()+
+  geom_line(lwd=0,colour="#FFFFFF") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig4)
+
+temp_prochlo = plot_model(model_prochlo_nb,type="pred",terms=c("temp"),colors ="#FFFFFF" ,rawdata = TRUE,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1,ci.lvl = NA)
+fig5 <- temp_prochlo +  ylab("Predicted response") + xlab("Temperature")+  theme_bw()+
+  geom_line(lwd=0,colour="#FFFFFF") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("")
+#plot(fig5)
+
+pH_prochlo = plot_model(model_prochlo_sig,type="pred",terms=c("pH_corrected"),colors ="#CC6677" ,show.data = T,alpha = 0.3,dot.size=1,dot.alpha=1,dot.alpha=1,jitter=0.1)
+fig6 <- pH_prochlo +  ylab("Predicted response") + xlab("pH")+ theme_bw()+
+  geom_line(lwd=0.5,colour="#CC6677",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig6)
+
+# SAR11
+dic_sar = plot_model(model_sar_sig,type="pred",terms=c("dic"),colors ="#88CCEE" ,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1)
+fig7 <- dic_sar +  ylab("Predicted response") + xlab("DIC")+ theme_bw()+
+  geom_line(lwd=0.5,colour="#88CCEE",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig7)
+
+temp_sar = plot_model(model_sar_sig,type="pred",terms=c("temp"),colors ="#88CCEE" ,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1)
+fig8 <- temp_sar +  ylab("Predicted response") + xlab("Temperature")+ theme_bw()+
+  geom_line(lwd=0.5,colour="#88CCEE",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig8)
+
+pH_sar = plot_model(model_sar,type="pred",terms=c("pH_corrected"),colors ="#FFFFFF" ,show.data = T,alpha = 0.3,dot.size=1,dot.alpha=1,ci.lvl = NA,jitter=0.1)
+fig9 <- pH_sar +  ylab("Predicted response") + xlab("pH")+ theme_bw()+
+  geom_line(lwd=0,colour="#FFFFFF") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig9)
+
+# SAR86
+dic_sar86 = plot_model(model_sar86_sig,type="pred",terms=c("dic"),colors ="#DDCC77" ,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1)
+fig10 <- dic_sar86 +  ylab("Predicted response") + xlab("DIC")+theme_bw()+
+  geom_line(lwd=0.5,colour="#DDCC77",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig10)
+
+temp_sar86 = plot_model(model_sar86_sig,type="pred",terms=c("temp"),colors ="#DDCC77" ,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1)
+fig11 <- temp_sar86 +  ylab("Predicted response") + xlab("Temperature")+  theme_bw()+
+  geom_line(lwd=0.5,colour="#DDCC77",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("")
+#plot(fig11)
+
+pH_sar86 = plot_model(model_sar86_sig,type="pred",terms=c("pH_corrected"),colors ="#DDCC77" ,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1)
+fig12 <- pH_sar86 +  ylab("Predicted response") + xlab("pH")+ theme_bw()+
+  geom_line(lwd=0.5,colour="#DDCC77",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig12)
+
+# Flavobacteriales
+dic_flavo = plot_model(model_flavo_sig,type="pred",terms=c("dic"),colors ="#332288" ,show.data = T,alpha = .3,dot.size=1,dot.alpha=1,jitter=0.1)
+fig13 <- dic_flavo +  ylab("Predicted response") + xlab("DIC")+ theme_bw()+
+  geom_line(lwd=0.5,colour="#332288",linetype="solid") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("") 
+#plot(fig13)
+
+temp_flavo = plot_model(model_flavo,type="pred",terms=c("temp"),colors ="#FFFFFF" ,show.data = T,alpha = 0.3,dot.size=1,dot.alpha=1,jitter=0.1,ci.lvl = NA)
+fig14 <- temp_flavo +  ylab("Predicted response") + xlab("Temperature")+  theme_bw()+
+  geom_line(lwd=0,colour="#FFFFFF") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("")
+#plot(fig14)
+
+pH_flavo = plot_model(model_flavo,type="pred",terms=c("pH_corrected"),colors ="#FFFFFF" ,show.data = T,alpha = 0.3,dot.size=1,dot.alpha=1,ci.lvl = NA,jitter=0.1)
+fig15 <- pH_flavo +  ylab("Predicted response") + xlab("pH")+  theme_bw()+
+  geom_line(lwd=0,colour="#FFFFFF") +theme(axis.text.x=element_text(angle=45,vjust =1, hjust=1))+
+  theme(text = element_text(size = 12), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + 
+  ggtitle("")
+#plot(fig15)
+
+ggarrange(fig1,fig2,fig3,fig4,fig5,fig6,fig7,fig8,fig9,fig10,fig11,fig12,fig13,fig14,fig15,nrow=5,ncol=3) # Arrange all plots on single panel figure             
+#ggsave(filename = "16S_predicted_final.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 5, height = 7, dpi = 150)
+```
+
+## Predict relative abundance at all sites
+
+Models for 16S groups were used to predict relative abundance at 135 GOMECC-4 sites at the surface (< 10 m). Data for 6 sites were not available at the surface. This resulted in 84 sites where DNA was not collected, allowing for an expanded view of microbial distribution in the Gulf of Mexico surface waters at this time. 
+
+```{r}
+gomecc_all <- read.csv("/Users/seananderson/Gomecc-4/GOMECC-all-sites-final.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Load file of metadata from all surface sites 
+
+gomecc_all_synecho = gomecc_all[,c(9,11,13,15)] # Subset to variables in final Synechococcus model
+new_val_synecho = predict(model_synecho_sig, newdata=gomecc_all_synecho,type="response") # Predict new values based on GLM
+new_val_synecho = as.data.frame(new_val_synecho)
+odv_synecho = cbind(new_val_synecho,gomecc_all[4:6])
+
+gomecc_all_prochlo = gomecc_all[,c(8,11,15,16)] # Subset to variables in final Prochlorococcus model
+new_val_prochlo = predict(model_prochlo_sig, newdata=gomecc_all_prochlo,type="response") # Predict new values based on GLM
+new_val_prochlo = as.data.frame(new_val_prochlo)
+odv_prochlo = cbind(new_val_prochlo,gomecc_all[4:6])
+
+gomecc_all_sar11 = gomecc_all[,c(7,9,12:13)] # Subset to variables in final SAR11 model
+new_val_sar11 = predict(model_sar_sig, newdata=gomecc_all_sar11,type="response") # Predict new values based on GLM
+new_val_sar11 = as.data.frame(new_val_sar11)
+odv_sar11 = cbind(new_val_sar11,gomecc_all[4:6])
+
+gomecc_all_sar86 = gomecc_all[,c(7,9,12:13,15)] # Subset to variables in final SAR86 model
+new_val_sar86 = predict(model_sar86_sig, newdata=gomecc_all_sar86,type="response")
+new_val_sar86 = as.data.frame(new_val_sar86)
+odv_sar86 = cbind(new_val_sar86,gomecc_all[4:6])
+
+gomecc_all_flavo = gomecc_all[,c(8,13)] # Subset to variables in final Flavobacteriales model
+new_val_flavo = predict(model_flavo_sig, newdata=gomecc_all_flavo,type="response")
+new_val_flavo = as.data.frame(new_val_flavo)
+odv_flavo = cbind(new_val_flavo,gomecc_all[4:6])
+
+all_odv_16S = cbind(odv_sar11,new_val_synecho, new_val_prochlo,new_val_sar86,new_val_flavo) # Combine new predicted values
+
+#write.csv(all_odv_16S, "ODV_16S_abund_v5.csv",row.names=T) # Write .csv file
+```
+
+> This file with predicted values will be uploaded and analyzed in ODV (ODV files provided on GitHub).
+
+# Microbial indicator analysis
+
+Explore microbes at the ASV level that are indicative of different acidic conditions in the Gulf of Mexico at this time. As with the models, focus on samples from the photic zone (Cluster 1). We used the TA:DIC (total alkalinity:dissolved inorganic carbon) ratio as it is a good proxy of OA, indicating the buffering capacity of seawater. A lower TA:DIC = less buffered waters (more acidic), while a higher TA:DIC = more buffered waters. 
+
+The cutoff for TA:DIC was 1.16 and this was manually set by inspecting histograms. See the 18S workflow for the TA:DIC histogram and plot of TA:DIC vs. in situ pH values. 
+
+Run the core indicator analysis program using 16S ASVs.
+
+```{r}
+ps_dsq <- subset_samples(ps_subset_16S, cluster_16S == "Cluster 1") # Subset to Cluster 1
+ps_dsq <- subset_samples(ps_dsq, alk_dic_oa == "High" | alk_dic_oa =="Low") # Split samples based on high or low TA:DIC (see above)
+ASV = otu_table(ps_dsq) # Subset ASVs
+ASV =as.data.frame(ASV) # Convert to data frame
+if(taxa_are_rows(ps_dsq)){ASV <- t(ASV)} # Flip table for analysis
+ASV =as.data.frame(ASV) # Convert to df again
+
+data <- as(sample_data(ps_dsq), "data.frame") # Subset metadata
+data = data[!is.na(data$alk_dic_oa),] # Remove TA:DIC NA values 
+bin = data$alk_dic_oa # Bin based on low vs. high categories
+inv = multipatt(ASV, bin, func = "r.g", control = how(nperm=999)) # Core function using 999 permutations
+summary(inv,alpha = 0.001) # Filter for significance
+```
+
+Results of indicator analysis (ASV, stat, and p-value) combined in a single .csv file using the summary above. Upload this file into R (provided on GitHub).
+Match indicator values table for each ASV with the relative abundance of the same ASV in the photic zone via the ASV count table. **Data frames need to match**.
+
+```{r}
+indic_OA <- read.csv("/Users/seananderson/Gomecc-4/OA_indic_16S.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Indicator ASVs file
+colnames(indic_OA)[1]  <- "OTU" # Change column names
+indic.high = indic_OA[indic_OA[["OA"]]== "High", ] # Subset to new data frame with only high TA:DIC
+indic.low = indic_OA[indic_OA[["OA"]]== "Low", ] # Subset to new df with only low TA:DIC
+
+ps4 <-  transform_sample_counts(ps_dsq, function(x) 100*x / sum(x) ) # Transform to relative abundance
+x1 = speedyseq::psmelt(ps4) # Melt the data
+OA.1 = x1 %>% # Group to the mean relative abundance at the ASV level
+  dplyr::group_by(OTU,alk_dic_oa,Phylum, Genus, Species) %>%
+  dplyr::summarise_at(.vars = c("Abundance"), .funs = mean)
+
+OA.high = OA.1[OA.1[["alk_dic_oa"]]== "High", ] # Subset ASV relative abundance based on high TA:DIC
+OA.low = OA.1[OA.1[["alk_dic_oa"]]== "Low", ] # Subset ASV based on low TA:DIC
+
+df_h <- OA.high[OA.high$OTU %in% indic.high$OTU,] # Keep ASVs if they match indicator dataset
+df_L <- OA.low[OA.low$OTU %in% indic.low$OTU,] # Keep ASVs if they match indicator dataset
+
+#write.csv(df_h, "ASVs_16S_abund_high.csv",row.names=T) # Write .csv file
+#write.csv(df_L, "ASVs_16S_abund_low.csv",row.names=T) # Write .csv file
+```
+
+The previous two files were used in combination with the indicator file to create a master .csv file that has ASV IDs, indicator values, and relative abundance for each specific 16S ASV in the photic zone. This file to be loaded into R (provided on GitHub). 
+
+```{r fig.width=12, fig.height=5}
+indic_OA2 <- read.csv("/Users/seananderson/Gomecc-4/OA_indic2_16S.csv", header=T, row.names = NULL, check.names=F,fileEncoding="UTF-8-BOM") # Upload file
+p <- ggplot(indic_OA2, aes(x=stat, y=Abundance)) + geom_point(aes(fill=Phylum),shape=21,size=5) + theme_bw()+ theme(text = element_text(size = 14))+
+  scale_y_continuous(limits = c(0, NA)) + facet_wrap(~OA,scales="free") + scale_fill_brewer(palette="Dark2") 
+p$data$Phylum <- factor(p$data$Phylum, levels = c("Actinobacteriota", "Bacteroidota","Crenarchaeota", "Cyanobacteria", "Marinimicrobia_(SAR406_clade)",  "Proteobacteria","Others")) # Set order
+p
+#ggsave(filename = "16S_indicator2_V2.pdf", plot = last_plot(), device = "pdf", path = NULL, scale = 1, width = 12, height = 5, dpi = 150)
+```
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
