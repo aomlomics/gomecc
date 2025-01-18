@@ -1,0 +1,325 @@
+﻿ASV,stat,p-value,OA,Division,Genus,Species,Abundance
+ASV14431,0.647,0.001,High,Stramenopiles,MAST-3B,MAST-3B_sp.,0.708921416
+ASV14576,0.577,0.001,High,Stramenopiles,MAST-4B,MAST-4B_sp.,0.641820298
+ASV20542,0.571,0.001,High,Alveolata,Dino-Group-V_XX,Dino-Group-V_XX_sp.,0.653951573
+ASV19995,0.567,0.001,High,Others,Kathablepharidida_XX,Kathablepharidida_XX_sp.,0.54420144
+ASV21676,0.554,0.001,High,Alveolata,Dino-Group-I-Clade-1_X,Dino-Group-I-Clade-1_X_sp.,0.461746676
+ASV605,0.535,0.001,High,Haptophyta,Unknown Prymnesiophyceae (Class),Unknown Prymnesiophyceae (Class),0.902642723
+ASV4707,0.527,0.001,High,Stramenopiles,MAST-3E,MAST-3E_sp.,0.347068212
+ASV4670,0.525,0.001,High,Alveolata,Dino-Group-III_XX,Dino-Group-III_XX_sp.,0.77052555
+ASV23509,0.505,0.001,High,Stramenopiles,MOCH-5_XXX,MOCH-5_XXX_sp.,0.840469935
+ASV2986,0.491,0.001,High,Stramenopiles,MAST-1D,MAST-1D_sp.,0.247743393
+ASV6134,0.479,0.001,High,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.631015881
+ASV7920,0.478,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.723706408
+ASV1232,0.465,0.001,High,Stramenopiles,MAST-1D,MAST-1D_sp.,0.711954235
+ASV22292,0.46,0.001,High,Alveolata,Dino-Group-I-Clade-4_X,Dino-Group-I-Clade-4_X_sp.,0.295131188
+ASV13054,0.455,0.001,High,Alveolata,Dino-Group-III_XX,Dino-Group-III_XX_sp.,0.1766617
+ASV21571,0.452,0.001,High,Haptophyta,Phaeocystis,Phaeocystis_sp.,0.148039472
+ASV18507,0.449,0.001,High,Haptophyta,Haptophyta_Clade_HAP2_XXX,Haptophyta_Clade_HAP2_XXX_sp.,0.210780913
+ASV8847,0.446,0.001,High,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.458334755
+ASV22938,0.445,0.001,High,Alveolata,Dino-Group-V_XX,Dino-Group-V_XX_sp.,0.274280558
+ASV23507,0.444,0.001,High,Alveolata,Unknown Gymnodiniaceae (Family),Unknown Gymnodiniaceae (Family),3.539299646
+ASV16512,0.441,0.001,High,Others,Pterocystida_XXX,Pterocystida_XXX_sp.,0.160360299
+ASV9249,0.44,0.001,High,Stramenopiles,Chrysophyceae_Clade-EC2H_XX,Chrysophyceae_Clade-EC2H_XX_sp.,0.317308677
+ASV13378,0.435,0.001,High,Stramenopiles,MAST-11_X,MAST-11_X_sp.,0.41416933
+ASV9324,0.431,0.001,High,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.398247031
+ASV5804,0.429,0.001,High,Alveolata,Pentapharsodinium,Pentapharsodinium_tyrrhenicum,0.246416535
+ASV23948,0.428,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.281862606
+ASV16322,0.424,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.472361542
+ASV19330,0.418,0.001,High,Alveolata,Prorocentrum,Prorocentrum_sp.,0.339296613
+ASV19547,0.413,0.001,High,Stramenopiles,MOCH-2_XXX,MOCH-2_XXX_sp.,0.170785614
+ASV420,0.41,0.001,High,Alveolata,Dinophyceae_XXX,Dinophyceae_XXX_sp.,0.244710574
+ASV3423,0.41,0.001,High,Alveolata,Dino-Group-V_XX,Dino-Group-V_XX_sp.,0.22803007
+ASV17017,0.408,0.001,High,Alveolata,Gyrodinium,Unknown Gyrodinium (Genus),1.449497879
+ASV16099,0.407,0.001,High,Stramenopiles,Bacillariophyceae_XXX,Bacillariophyceae_XXX_sp.,0.39805748
+ASV19148,0.404,0.001,High,Stramenopiles,MAST-1C,MAST-1C_sp.,0.2488807
+ASV10791,0.401,0.001,High,Stramenopiles,MAST-9A,MAST-9A_sp.,0.173060228
+ASV18275,0.394,0.001,High,Stramenopiles,MAST-3F,MAST-3F_sp.,0.188224322
+ASV11095,0.394,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.182537787
+ASV23445,0.393,0.001,High,Alveolata,Dino-Group-II-Clade-17_X,Dino-Group-II-Clade-17_X_sp.,0.061225031
+ASV1165,0.392,0.001,High,Chlorophyta,Unknown Chlorophyta_X (Subdivision),Unknown Chlorophyta_X (Subdivision),0.121691858
+ASV15913,0.388,0.001,High,Others,Stephanoecidae_Group_D_X,Stephanoecidae_Group_D_X_sp.,0.101978535
+ASV10513,0.386,0.001,High,Alveolata,Dino-Group-I-Clade-1_X,Dino-Group-I-Clade-1_X_sp.,0.219689818
+ASV2984,0.385,0.001,High,Alveolata,Paragymnodinium,Paragymnodinium_shiwhaense,0.108802378
+ASV13209,0.377,0.001,High,Alveolata,Prorocentrum,Prorocentrum_sp.,0.166615488
+ASV22434,0.376,0.001,High,Rhizaria,RAD-A_Xb_X,RAD-A_Xb_X_sp.,0.487904739
+ASV13574,0.373,0.001,High,Stramenopiles,Chrysophyceae_Clade-EC2H_XX,Chrysophyceae_Clade-EC2H_XX_sp.,0.089278606
+ASV14010,0.372,0.001,High,Alveolata,Tripos,Tripos_fusus,0.419287212
+ASV14975,0.371,0.001,High,Haptophyta,Chrysochromulina,Unknown Chrysochromulina (Genus),0.05932952
+ASV10173,0.37,0.001,High,Stramenopiles,Pedinellales_X,Pedinellales_X_sp.,0.071081693
+ASV4030,0.367,0.001,High,Rhizaria,Lychnaspis_E2,Lychnaspis_E2_giltschii,0.123776921
+ASV12726,0.367,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.097618858
+ASV23241,0.365,0.001,High,Alveolata,Dino-Group-II-Clade-26_X,Dino-Group-II-Clade-26_X_sp.,0.066532464
+ASV7629,0.364,0.001,High,Stramenopiles,MAST-3K,MAST-3K_sp.,0.067101118
+ASV21777,0.363,0.001,High,Alveolata,Warnowia,Warnowia_sp.,1.328374674
+ASV2501,0.358,0.001,High,Alveolata,Dino-Group-I-Clade-8_X,Dino-Group-I-Clade-8_X_sp.,0.140078323
+ASV623,0.356,0.001,High,Alveolata,Gymnodinium,Gymnodinium_sp.,0.217794307
+ASV14389,0.355,0.001,High,Stramenopiles,MAST-3C,MAST-3C_sp.,0.141026078
+ASV15198,0.353,0.001,High,Chlorophyta,Halosphaera,Halosphaera_sp.,0.100083023
+ASV15248,0.352,0.001,High,Alveolata,Dino-Group-I-Clade-6_X,Dino-Group-I-Clade-6_X_sp.,0.219310716
+ASV14847,0.352,0.001,High,Alveolata,Dino-Group-I-Clade-4_X,Dino-Group-I-Clade-4_X_sp.,0.138561913
+ASV18286,0.351,0.001,High,Alveolata,Syndiniales_XXX,Syndiniales_XXX_sp.,0.363369613
+ASV18092,0.345,0.001,High,Alveolata,Dino-Group-II-Clade-12_X,Dino-Group-II-Clade-12_X_sp.,0.328302645
+ASV1243,0.345,0.001,High,Alveolata,Unknown Oligotrichida (Order),Unknown Oligotrichida (Order),0.447151235
+ASV14635,0.342,0.001,High,Stramenopiles,MOCH-2_XXX,MOCH-2_XXX_sp.,0.128136598
+ASV9968,0.341,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.318825086
+ASV23527,0.341,0.001,High,Haptophyta,Unknown Prymnesiophyceae (Class),Unknown Prymnesiophyceae (Class),0.059898173
+ASV18633,0.341,0.001,High,Alveolata,Dino-Group-II-Clade-8_X,Dino-Group-II-Clade-8_X_sp.,0.186328811
+ASV8236,0.337,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.109750134
+ASV512,0.336,0.001,High,Stramenopiles,Chrysophyceae_Clade-EC2I_XX,Chrysophyceae_Clade-EC2I_XX_sp.,0.151451393
+ASV21332,0.336,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.054969842
+ASV19823,0.335,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.062172787
+ASV16846,0.333,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.151640945
+ASV6457,0.332,0.001,High,Alveolata,Karlodinium,Karlodinium_veneficum,0.68390066
+ASV10291,0.332,0.001,High,Alveolata,Dino-Group-I-Clade-4_X,Dino-Group-I-Clade-4_X_sp.,0.823031227
+ASV23033,0.328,0.001,High,Haptophyta,Chrysochromulina,Chrysochromulina_sp.,0.10918148
+ASV3123,0.322,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.443170661
+ASV366,0.319,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.100651677
+ASV913,0.314,0.001,High,Others,Telonemia-Group-2_X,Telonemia-Group-2_X_sp.,0.694894628
+ASV13662,0.314,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.181590031
+ASV20147,0.313,0.001,High,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.195995921
+ASV16264,0.313,0.001,High,Alveolata,Unknown Syndiniales (Class),Unknown Syndiniales (Class),0.209074952
+ASV14001,0.313,0.001,High,Alveolata,Dino-Group-II-Clade-13_X,Dino-Group-II-Clade-13_X_sp.,0.059708622
+ASV11877,0.312,0.001,High,Others,Prasinococcus,Prasinococcus_capsulatus,0.039237094
+ASV2351,0.311,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.148608126
+ASV5418,0.31,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.094206937
+ASV10969,0.307,0.001,High,Rhizaria,Chlorarachnion,Chlorarachnion_reptans,0.050989268
+ASV6624,0.306,0.001,High,Stramenopiles,MAST-4C,MAST-4C_sp.,0.748916715
+ASV9126,0.304,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.03525652
+ASV16086,0.303,0.001,High,Discoba,Hemistasia,Hemistasia_sp.,0.039237094
+ASV6318,0.301,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.111835197
+ASV13104,0.301,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.108612827
+ASV4202,0.3,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.083592071
+ASV9153,0.297,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.142352937
+ASV12776,0.295,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.331145913
+ASV18010,0.294,0.001,High,Alveolata,Dino-Group-III_XX,Dino-Group-III_XX_sp.,0.062930992
+ASV13740,0.294,0.001,High,Alveolata,Dino-Group-I-Clade-1_X,Dino-Group-I-Clade-1_X_sp.,0.06899663
+ASV11746,0.294,0.001,High,Alveolata,Dino-Group-II-Clade-16_X,Dino-Group-II-Clade-16_X_sp.,0.309537078
+ASV541,0.293,0.001,High,Alveolata,Dino-Group-II-Clade-22_X,Dino-Group-II-Clade-22_X_sp.,0.128326149
+ASV50,0.293,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.117711283
+ASV21050,0.293,0.001,High,Stramenopiles,Stramenopiles_XXXXX,Stramenopiles_XXXXX_sp.,0.152967803
+ASV12226,0.293,0.001,High,Haptophyta,Haptophyta_Clade_HAP2_XXX,Haptophyta_Clade_HAP2_XXX_sp.,0.087572645
+ASV9484,0.291,0.001,High,Discoba,Eupelagonemidae_X,Eupelagonemidae_X_sp.,0.158464787
+ASV2605,0.291,0.001,High,Chlorophyta,Halosphaera,Halosphaera_sp.,0.082833866
+ASV17584,0.291,0.001,High,Alveolata,Dino-Group-II-Clade-7_X,Dino-Group-II-Clade-7_X_sp.,0.062362338
+ASV19566,0.288,0.001,High,Alveolata,Dino-Group-II-Clade-1_X,Dino-Group-II-Clade-1_X_sp.,0.11392026
+ASV18984,0.287,0.001,High,Alveolata,Dino-Group-II-Clade-23_X,Dino-Group-II-Clade-23_X_sp.,0.029190882
+ASV3860,0.284,0.001,High,Rhizaria,Unknown Cercozoa (Subdivision),Unknown Cercozoa (Subdivision),0.037341583
+ASV19877,0.284,0.001,High,Rhizaria,Chlorarachnion,Chlorarachnion_reptans,0.034119213
+ASV12249,0.282,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.063310094
+ASV5234,0.28,0.001,High,Stramenopiles,Melkoniana,Melkoniana_sp.,0.078284638
+ASV7687,0.278,0.001,High,Alveolata,Heterocapsa,Heterocapsa_nei/rotundata,0.169079653
+ASV9222,0.277,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.113541157
+ASV7912,0.277,0.001,High,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.107475519
+ASV21176,0.277,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.111645645
+ASV14419,0.273,0.001,High,Rhizaria,Bigelowiella,Bigelowiella_natans,0.065584709
+ASV23659,0.272,0.001,High,Stramenopiles,MAST-7C,MAST-7C_sp.,0.085298031
+ASV3276,0.271,0.001,High,Haptophyta,Chrysochromulina,Chrysochromulina_sp.,0.03374011
+ASV16731,0.269,0.001,High,Chlorophyta,Unknown Chlorophyta_X (Subdivision),Unknown Chlorophyta_X (Subdivision),0.028432677
+ASV9224,0.268,0.001,High,Alveolata,Dino-Group-I-Clade-1_X,Dino-Group-I-Clade-1_X_sp.,0.112024748
+ASV7851,0.266,0.001,High,Stramenopiles,MOCH-2_XXX,MOCH-2_XXX_sp.,0.026916268
+ASV8605,0.265,0.001,High,Stramenopiles,MOCH-5_XXX,MOCH-5_XXX_sp.,0.128136598
+ASV10106,0.265,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.102168086
+ASV18853,0.264,0.001,High,Alveolata,Dino-Group-V_XX,Dino-Group-V_XX_sp.,0.056296701
+ASV10944,0.264,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.063878748
+ASV20735,0.263,0.001,High,Alveolata,Dino-Group-I-Clade-1_X,Dino-Group-I-Clade-1_X_sp.,1.453478454
+ASV13033,0.26,0.001,High,Haptophyta,Chrysochromulina,Chrysochromulina_sp.,0.014026787
+ASV5771,0.258,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.067669772
+ASV19100,0.258,0.001,High,Rhizaria,Unknown Acantharea (Class),Unknown Acantharea (Class),0.032602803
+ASV18661,0.258,0.001,High,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.042269913
+ASV8164,0.257,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.074872716
+ASV7846,0.257,0.001,High,Stramenopiles,MAST-4C,MAST-4C_sp.,0.116573976
+ASV20768,0.257,0.001,High,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.071839897
+ASV16349,0.257,0.001,High,Alveolata,Dino-Group-II-Clade-2_X,Dino-Group-II-Clade-2_X_sp.,0.037152031
+ASV2467,0.256,0.001,High,Rhizaria,Chlorarachnion,Chlorarachnion_reptans,0.015922299
+ASV19998,0.256,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.079611496
+ASV8886,0.255,0.001,High,Rhizaria,Minorisa,Minorisa_minuta,0.092690527
+ASV816,0.254,0.001,High,Stramenopiles,MOCH-5_XXX,MOCH-5_XXX_sp.,0.136855952
+ASV2295,0.252,0.001,High,Alveolata,Dino-Group-II-Clade-25_X,Dino-Group-II-Clade-25_X_sp.,0.024262551
+ASV21648,0.252,0.001,High,Stramenopiles,Unknown Dictyochophyceae_X (Order),Unknown Dictyochophyceae_X (Order),0.058571315
+ASV14728,0.252,0.001,High,Alveolata,Unknown Warnowiaceae (Family),Unknown Warnowiaceae (Family),0.527331385
+ASV14061,0.251,0.001,High,Others,Picozoa_XXXXX,Picozoa_XXXXX_sp.,0.029190882
+ASV3406,0.25,0.001,High,Stramenopiles,MAST-1D,MAST-1D_sp.,0.038668441
+ASV7441,0.246,0.001,High,Alveolata,Dino-Group-V_XX,Dino-Group-V_XX_sp.,0.043028118
+ASV19274,0.246,0.001,High,Alveolata,Dino-Group-II-Clade-22_X,Dino-Group-II-Clade-22_X_sp.,0.068617527
+ASV11795,0.246,0.001,High,Others,Stephanoecidae_Group_E_X,Stephanoecidae_Group_E_X_sp.,0.089468157
+ASV7294,0.245,0.001,High,Alveolata,Dino-Group-I-Clade-4_X,Dino-Group-I-Clade-4_X_sp.,0.182348236
+ASV12424,0.245,0.001,High,Alveolata,Ceratocorys,Unknown Ceratocorys (Genus),0.024641653
+ASV20360,0.244,0.001,High,Alveolata,Dino-Group-II-Clade-1_X,Dino-Group-II-Clade-1_X_sp.,0.043975874
+ASV17253,0.244,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.059139968
+ASV1341,0.244,0.001,High,Discoba,Eupelagonemidae_X,Eupelagonemidae_X_sp.,0.029759535
+ASV18522,0.243,0.001,High,Haptophyta,Chrysochromulina,Chrysochromulina_rotalis,0.039426646
+ASV18631,0.242,0.001,High,Alveolata,Blastodinium,Blastodinium_mangini,0.078095086
+ASV784,0.24,0.001,High,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.042080362
+ASV4060,0.24,0.001,High,Alveolata,Dino-Group-II-Clade-6_X,Dino-Group-II-Clade-6_X_sp.,0.170785614
+ASV15714,0.24,0.001,High,Others,Spizellomycetales_XX,Spizellomycetales_XX_sp.,0.021798386
+ASV4148,0.239,0.001,High,Haptophyta,Unknown Prymnesiales (Order),Unknown Prymnesiales (Order),0.027484921
+ASV15156,0.239,0.001,High,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.04662959
+ASV12615,0.238,0.001,High,Rhizaria,Unknown Acantharea (Class),Unknown Acantharea (Class),0.129463456
+ASV15516,0.237,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.032223701
+ASV21726,0.236,0.001,High,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.015164094
+ASV22945,0.235,0.001,High,Alveolata,Dino-Group-II-Clade-1_X,Dino-Group-II-Clade-1_X_sp.,0.051557921
+ASV9783,0.234,0.001,High,Stramenopiles,MAST-3E,MAST-3E_sp.,0.014784992
+ASV8426,0.233,0.001,High,Alveolata,Prorocentrum,Prorocentrum_sp.,0.219689818
+ASV4664,0.233,0.001,High,Others,Hemiselmis,Hemiselmis_rufescens,0.366781535
+ASV23488,0.233,0.001,High,Stramenopiles,Paraphysomonadales_Clade-EC1Ga_X,Paraphysomonadales_Clade-EC1Ga_X_sp.,0.082644315
+ASV3779,0.232,0.001,High,Alveolata,Schuettiella,Schuettiella_mitra,0.074114512
+ASV13030,0.232,0.001,High,Haptophyta,Chrysochromulina,Chrysochromulina_campanulifera,0.070133937
+ASV210,0.231,0.001,High,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.034877417
+ASV17338,0.23,0.001,High,Stramenopiles,MAST-10_X,MAST-10_X_sp.,0.071460795
+ASV4804,0.229,0.001,High,Alveolata,Unknown Syndiniales (Class),Unknown Syndiniales (Class),0.022935693
+ASV23566,0.227,0.001,High,Others,Opisthokonta_XXXXX,Opisthokonta_XXXXX_sp.,0.06103548
+ASV7884,0.225,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.015353646
+ASV6117,0.225,0.001,High,Chlorophyta,Pyramimonas,Unknown Pyramimonas (Genus),0.049093756
+ASV9139,0.224,0.001,High,Alveolata,Dino-Group-II-Clade-5_X,Dino-Group-II-Clade-5_X_sp.,0.040753504
+ASV19332,0.224,0.001,High,Alveolata,Dino-Group-II-Clade-14_X,Dino-Group-II-Clade-14_X_sp.,0.009288008
+ASV8061,0.223,0.001,High,Alveolata,Syndiniales_XXX,Syndiniales_XXX_sp.,0.05781311
+ASV7727,0.219,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.132496275
+ASV4830,0.218,0.001,High,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.036204276
+ASV15576,0.213,0.001,High,Alveolata,Gymnodinium,Gymnodinium_sp.,0.044734079
+ASV18963,0.212,0.001,High,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.022746142
+ASV21655,0.211,0.001,High,Alveolata,Dino-Group-III_XX,Dino-Group-III_XX_sp.,0.028811779
+ASV22789,0.21,0.001,High,Alveolata,Dino-Group-II-Clade-7_X,Dino-Group-II-Clade-7_X_sp.,0.016680504
+ASV22724,0.208,0.001,High,Alveolata,Gymnoxanthella,Gymnoxanthella_radiolariae,0.108233724
+ASV14426,0.208,0.001,High,Alveolata,Dino-Group-II-Clade-26_X,Dino-Group-II-Clade-26_X_sp.,0.02729537
+ASV14690,0.207,0.001,High,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.025399858
+ASV14244,0.205,0.001,High,Alveolata,Dinophyceae_XXX,Dinophyceae_XXX_sp.,0.029190882
+ASV10504,0.204,0.001,High,Stramenopiles,MAST-3D,MAST-3D_sp.,0.008340252
+ASV6240,0.185,0.001,High,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.045492283
+ASV5025,0.179,0.001,High,Alveolata,Dino-Group-II-Clade-1_X,Dino-Group-II-Clade-1_X_sp.,0.122450063
+ASV23461,0.422,0.001,Low,Alveolata,Dino-Group-I-Clade-1_X,Dino-Group-I-Clade-1_X_sp.,1.198753704
+ASV14168,0.407,0.001,Low,Others,Cryptomonadales_XX,Cryptomonadales_XX_sp.,0.3285536
+ASV15036,0.399,0.001,Low,Chlorophyta,Ostreococcus,Unknown Ostreococcus (Genus),5.090033874
+ASV4573,0.395,0.001,Low,Alveolata,Euduboscquella,Euduboscquella_sp.,0.764927115
+ASV22086,0.394,0.001,Low,Haptophyta,Emiliania,Emiliania_huxleyi,0.244929493
+ASV22569,0.372,0.001,Low,Stramenopiles,MOCH-4_XXX,MOCH-4_XXX_sp.,0.195264413
+ASV15532,0.355,0.001,Low,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.113762745
+ASV23571,0.314,0.001,Low,Alveolata,Dino-Group-I-Clade-4_X,Dino-Group-I-Clade-4_X_sp.,1.806620313
+ASV8166,0.305,0.001,Low,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.117158648
+ASV4009,0.302,0.001,Low,Stramenopiles,Unknown Bacillariophyceae (Class),Unknown Bacillariophyceae (Class),0.097207719
+ASV20918,0.302,0.001,Low,Alveolata,Gyrodiniellum,Gyrodiniellum_shiwhaense,0.143476895
+ASV19033,0.288,0.001,Low,Haptophyta,Chrysochromulina,Chrysochromulina_sp.,0.307753695
+ASV23822,0.287,0.001,Low,Rhizaria,Protaspa,Protaspa_sp.,0.118007624
+ASV18485,0.285,0.001,Low,Stramenopiles,Pseudo-nitzschia,Unknown Pseudo-nitzschia (Genus),0.15239114
+ASV10782,0.285,0.001,Low,Stramenopiles,MAST-1B,MAST-1B_sp.,0.109093379
+ASV2858,0.282,0.001,Low,Chlorophyta,Bathycoccus,Bathycoccus_prasinos,0.638005247
+ASV7102,0.28,0.001,Low,Alveolata,Chattonaria,Chattonaria_mesnili,0.586217728
+ASV18929,0.28,0.001,Low,Stramenopiles,Paraphysomonas,Paraphysomonas_sp.,0.053060982
+ASV1231,0.277,0.001,Low,Others,Unknown Cryptomonadales:nucl (Order),Unknown Cryptomonadales:nucl (Order),0.092113865
+ASV730,0.275,0.001,Low,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.09296284
+ASV157,0.275,0.001,Low,Stramenopiles,Unknown Peronosporales (Family),Unknown Peronosporales (Family),0.137109577
+ASV10199,0.275,0.001,Low,Stramenopiles,Minutocellus,Minutocellus_sp.,0.264880422
+ASV22613,0.274,0.001,Low,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.112489282
+ASV4374,0.273,0.001,Low,Others,Unknown Choanoflagellatea (Class),Unknown Choanoflagellatea (Class),0.028865174
+ASV465,0.272,0.001,Low,Stramenopiles,Chrysophyceae_Clade-EC2H_XX,Chrysophyceae_Clade-EC2H_XX_sp.,0.046269176
+ASV11909,0.267,0.001,Low,Stramenopiles,Unknown Bacillariophyceae (Class),Unknown Bacillariophyceae (Class),0.050514055
+ASV4433,0.266,0.001,Low,Chlorophyta,Chloroparvula,Chloroparvula_pacifica,0.625695099
+ASV17099,0.266,0.001,Low,Alveolata,Dino-Group-II-Clade-6_X,Dino-Group-II-Clade-6_X_sp.,0.642250125
+ASV20135,0.265,0.001,Low,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.2831334
+ASV9684,0.264,0.001,Low,Alveolata,Chytriodinium,Chytriodinium_sp.,0.17616246
+ASV19434,0.264,0.001,Low,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.015281563
+ASV20253,0.263,0.001,Low,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.084897571
+ASV23317,0.262,0.001,Low,Chlorophyta,Unknown Chlorellales_X (Family),Unknown Chlorellales_X (Family),0.297141499
+ASV6157,0.26,0.001,Low,Stramenopiles,Pelagomonas,Pelagomonas_calceolata,0.606593145
+ASV4571,0.26,0.001,Low,Stramenopiles,MAST-3E,MAST-3E_sp.,0.054334445
+ASV14693,0.26,0.001,Low,Alveolata,Heterocapsa,Heterocapsa_nei/rotundata,0.270823252
+ASV9085,0.259,0.001,Low,Stramenopiles,Cyclotella,Cyclotella_choctawhatcheeana,0.48094474
+ASV4968,0.259,0.001,Low,Others,Unknown Picozoa_X (Subdivision),Unknown Picozoa_X (Subdivision),0.14644831
+ASV908,0.258,0.001,Low,Alveolata,Dino-Group-II-Clade-4_X,Dino-Group-II-Clade-4_X_sp.,0.042448786
+ASV22342,0.257,0.001,Low,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.034808004
+ASV3083,0.255,0.001,Low,Chlorophyta,Micromonas,Micromonas_commoda_A1,0.761531213
+ASV8131,0.253,0.001,Low,Alveolata,Dino-Group-II-Clade-16_X,Dino-Group-II-Clade-16_X_sp.,0.340863748
+ASV10444,0.253,0.001,Low,Alveolata,Dino-Group-III_XX,Dino-Group-III_XX_sp.,0.088293474
+ASV18208,0.25,0.001,Low,Others,Kathablepharidida_XX,Kathablepharidida_XX_sp.,0.086171035
+ASV2221,0.249,0.001,Low,Stramenopiles,Thalassiosira,Unknown Thalassiosira (Genus),0.146023822
+ASV16083,0.249,0.001,Low,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.068342545
+ASV11292,0.248,0.001,Low,Stramenopiles,Bicosoeca,Bicosoeca_vacillans,0.032685565
+ASV9252,0.247,0.001,Low,Alveolata,Unknown Peridiniales (Order),Unknown Peridiniales (Order),0.502169133
+ASV2133,0.246,0.001,Low,Chlorophyta,Picochlorum,Picochlorum_sp.,0.505140548
+ASV21154,0.245,0.001,Low,Stramenopiles,Coscinodiscus,Coscinodiscus_radiatus,0.05348547
+ASV19149,0.245,0.001,Low,Alveolata,Dino-Group-I-Clade-5_X,Dino-Group-I-Clade-5_X_sp.,0.145599334
+ASV15396,0.244,0.001,Low,Stramenopiles,Navicula,Navicula_sp.,0.092538352
+ASV21211,0.243,0.001,Low,Stramenopiles,Skeletonema,Skeletonema_sp.,0.405385902
+ASV15649,0.243,0.001,Low,Haptophyta,Phaeocystis,Unknown Phaeocystis (Genus),0.039901858
+ASV11999,0.243,0.001,Low,Rhizaria,Astrosphaera,Astrosphaera_hexagonalis,0.48094474
+ASV23815,0.242,0.001,Low,Others,Telonemia-Group-2_X,Telonemia-Group-2_X_sp.,0.030563126
+ASV22520,0.242,0.001,Low,Stramenopiles,MAST-10_X,MAST-10_X_sp.,0.028440686
+ASV21980,0.241,0.001,Low,Rhizaria,Cercozoa_XXXX,Cercozoa_XXXX_sp.,0.016979514
+ASV2498,0.238,0.001,Low,Rhizaria,Unknown Astrosphaeridae (Family),Unknown Astrosphaeridae (Family),0.431279661
+ASV18537,0.237,0.001,Low,Alveolata,Euduboscquella,Euduboscquella_crenulata,0.022073368
+ASV11058,0.237,0.001,Low,Stramenopiles,Skeletonema,Skeletonema_menzellii,0.15833397
+ASV3134,0.235,0.001,Low,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.050089567
+ASV3990,0.234,0.001,Low,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.073436399
+ASV9299,0.233,0.001,Low,Stramenopiles,MAST-3J,MAST-3J_sp.,0.100603622
+ASV339,0.233,0.001,Low,Stramenopiles,Cyclotella,Cyclotella_striata,0.207150073
+ASV22234,0.233,0.001,Low,Stramenopiles,Unknown Fragilariaceae (Family),Unknown Fragilariaceae (Family),0.11291377
+ASV20335,0.233,0.001,Low,Alveolata,Dino-Group-I-Clade-4_X,Dino-Group-I-Clade-4_X_sp.,0.140080992
+ASV10496,0.233,0.001,Low,Stramenopiles,MAST-4D,MAST-4D_sp.,0.041175322
+ASV8752,0.231,0.001,Low,Stramenopiles,Thalassiosira,Unknown Thalassiosira (Genus),0.119705575
+ASV20644,0.231,0.001,Low,Rhizaria,Cryothecomonas,Unknown Cryothecomonas (Genus),0.02377132
+ASV14521,0.23,0.001,Low,Alveolata,Unknown Oligotrichida (Order),Unknown Oligotrichida (Order),0.284831351
+ASV13554,0.23,0.001,Low,Alveolata,Dinophyceae_XXX,Dinophyceae_XXX_sp.,0.108668891
+ASV12217,0.23,0.001,Low,Stramenopiles,Unknown MAST-2 (Family),Unknown MAST-2 (Family),0.033534541
+ASV22838,0.229,0.001,Low,Alveolata,Dino-Group-II-Clade-14_X,Dino-Group-II-Clade-14_X_sp.,0.163003336
+ASV15332,0.229,0.001,Low,Stramenopiles,Unknown Thalassiosiraceae (Family),Unknown Thalassiosiraceae (Family),0.079379229
+ASV963,0.228,0.001,Low,Stramenopiles,Thalassiosira,Unknown Thalassiosira (Genus),0.056456885
+ASV22351,0.228,0.001,Low,Alveolata,Eutintinnus,Eutintinnus_fraknoi,0.028865174
+ASV13873,0.228,0.001,Low,Alveolata,Dino-Group-III_XX,Dino-Group-III_XX_sp.,0.251721298
+ASV21062,0.227,0.001,Low,Alveolata,Dino-Group-II-Clade-27_X,Dino-Group-II-Clade-27_X_sp.,0.125648405
+ASV8456,0.224,0.001,Low,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.197811341
+ASV5604,0.223,0.001,Low,Rhizaria,Astrosphaera,Astrosphaera_hexagonalis,0.58579324
+ASV19914,0.223,0.001,Low,Others,Geminigera:nucl,Geminigera_cryophila:nucl,0.039052883
+ASV20348,0.221,0.001,Low,Stramenopiles,Unknown Thalassiosirales (Order),Unknown Thalassiosirales (Order),0.282284424
+ASV1703,0.221,0.001,Low,Chlorophyta,Micromonas,Micromonas_clade_B5,0.15833397
+ASV18327,0.22,0.001,Low,Chlorophyta,Chloroparvula,Chloroparvula_pacifica,0.135411626
+ASV16545,0.219,0.001,Low,Alveolata,Yihiella,Yihiella_yeosuensis,0.141354456
+ASV23494,0.218,0.001,Low,Alveolata,Dino-Group-II-Clade-1_X,Dino-Group-II-Clade-1_X_sp.,0.041175322
+ASV22924,0.217,0.001,Low,Alveolata,Ellobiopsis,Ellobiopsis_chattonii,0.033959028
+ASV7913,0.216,0.001,Low,Alveolata,Dino-Group-II-Clade-13_X,Dino-Group-II-Clade-13_X_sp.,0.046693664
+ASV439,0.216,0.001,Low,Stramenopiles,Pleurosigma,Pleurosigma_intermedium,0.089991425
+ASV8843,0.215,0.001,Low,Alveolata,Unknown Warnowiaceae (Family),Unknown Warnowiaceae (Family),0.14644831
+ASV6296,0.215,0.001,Low,Rhizaria,Acantharea_4d_X,Acantharea_4d_X_sp.,0.027591711
+ASV18703,0.215,0.001,Low,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.028016198
+ASV15972,0.214,0.001,Low,Stramenopiles,Unknown Naviculales (Order),Unknown Naviculales (Order),0.030987613
+ASV17451,0.213,0.001,Low,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.148146262
+ASV7372,0.212,0.001,Low,Stramenopiles,Chaetoceros,Chaetoceros_rostratus,0.07131396
+ASV21067,0.212,0.001,Low,Chlorophyta,Chloroparvula,Chloroparvula_pacifica,0.038203907
+ASV15266,0.212,0.001,Low,Others,Geminigera:nucl,Geminigera_cryophila:nucl,0.020799905
+ASV20071,0.21,0.001,Low,Alveolata,Dino-Group-II-Clade-1_X,Dino-Group-II-Clade-1_X_sp.,0.061126251
+ASV17077,0.21,0.001,Low,Stramenopiles,MAST-4C,MAST-4C_sp.,0.117583136
+ASV195,0.209,0.001,Low,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.009338733
+ASV5114,0.207,0.001,Low,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.009763221
+ASV9096,0.206,0.001,Low,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.18804812
+ASV5101,0.206,0.001,Low,Alveolata,Unknown Dino-Group-II (Order),Unknown Dino-Group-II (Order),0.057730348
+ASV2310,0.206,0.001,Low,Stramenopiles,Bacillariophyceae_XXX,Bacillariophyceae_XXX_sp.,0.247900908
+ASV15560,0.204,0.001,Low,Others,Unknown Cryptomonadales_X (Family),Unknown Cryptomonadales_X (Family),0.032261077
+ASV18752,0.203,0.001,Low,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.066644593
+ASV11552,0.203,0.001,Low,Chlorophyta,Chloroparvula,Chloroparvula_pacifica,0.06919152
+ASV2000,0.2,0.001,Low,Stramenopiles,Unknown Bigyra (Subdivision),Unknown Bigyra (Subdivision),0.026742735
+ASV13330,0.197,0.001,Low,Alveolata,Thoracosphaeraceae_X,Thoracosphaeraceae_X_sp.,0.033534541
+ASV5294,0.196,0.001,Low,Others,Unknown Tremellomycetes (Family),Unknown Tremellomycetes (Family),0.065795618
+ASV12560,0.195,0.001,Low,Alveolata,Dino-Group-II-Clade-44_X,Dino-Group-II-Clade-44_X_sp.,0.015281563
+ASV8229,0.194,0.001,Low,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.022497856
+ASV5074,0.194,0.001,Low,Alveolata,Dino-Group-II-Clade-5_X,Dino-Group-II-Clade-5_X_sp.,0.019950929
+ASV12359,0.194,0.001,Low,Rhizaria,Cryothecomonas,Cryothecomonas_aestivalis,0.140929968
+ASV6961,0.193,0.001,Low,Discoba,Notosolenus,Notosolenus_urceolatus,0.01188566
+ASV319,0.193,0.001,Low,Chlorophyta,Picochlorum,Picochlorum_maculatum,0.141778944
+ASV23079,0.191,0.001,Low,Others,Unknown Fungi (Subdivision),Unknown Fungi (Subdivision),0.014857075
+ASV2914,0.19,0.001,Low,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.033110053
+ASV11285,0.19,0.001,Low,Alveolata,Unknown Dinophyceae (Class),Unknown Dinophyceae (Class),0.039052883
+ASV21316,0.188,0.001,Low,Alveolata,Oligotrichida_XX,Oligotrichida_XX_sp.,0.022497856
+ASV4494,0.186,0.001,Low,Alveolata,Dino-Group-II-Clade-4_X,Dino-Group-II-Clade-4_X_sp.,0.008489757
+ASV23858,0.185,0.001,Low,Alveolata,Dino-Group-II-Clade-1_X,Dino-Group-II-Clade-1_X_sp.,0.022497856
+ASV11016,0.183,0.001,Low,Chlorophyta,Chloropicon,Unknown Chloropicon (Genus),0.039052883
+ASV9410,0.182,0.001,Low,Alveolata,Dino-Group-II-Clade-7_X,Dino-Group-II-Clade-7_X_sp.,0.153240116
+ASV17965,0.181,0.001,Low,Stramenopiles,Unknown Gyrista (Subdivision),Unknown Gyrista (Subdivision),0.070889472
+ASV17510,0.179,0.001,Low,Stramenopiles,Thalassiosira,Unknown Thalassiosira (Genus),0.482218204
+ASV6597,0.175,0.001,Low,Stramenopiles,Unknown Bacillariophyceae (Class),Unknown Bacillariophyceae (Class),0.029289662
+ASV10829,0.172,0.001,Low,Alveolata,Dino-Group-II-Clade-10-and-11_X,Dino-Group-II-Clade-10-and-11_X_sp.,0.025469271
+ASV51,0.168,0.001,Low,Stramenopiles,MAST-3F,MAST-3F_sp.,0.017404002
+ASV6609,0.162,0.001,Low,Alveolata,Unknown Dinoflagellata (Subdivision),Unknown Dinoflagellata (Subdivision),0.014432587
+ASV3438,0.162,0.001,Low,Rhizaria,Unknown Spumellaria (Order),Unknown Spumellaria (Order),0.015706051
+ASV20094,0.157,0.001,Low,Stramenopiles,Minidiscus,Unknown Minidiscus (Genus),0.381614582
+ASV3993,0.149,0.001,Low,Stramenopiles,Chaetoceros,Chaetoceros_socialis,0.172766557
+ASV8978,0.143,0.001,Low,Alveolata,Dino-Group-II-Clade-7_X,Dino-Group-II-Clade-7_X_sp.,0.031412101
+ASV8139,0.143,0.001,Low,Others,Hemiselmis,Hemiselmis_aquamarina,0.010612196
