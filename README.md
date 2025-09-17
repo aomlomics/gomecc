@@ -1,14 +1,14 @@
-## DNA sampling in the Gulf of Mexico on GOMECC-4
+## DNA sampling in the Gulf of America/Mexico (GOM) on GOMECC-4
 
 This repository has QIIME 2 compatible files, metadata, R Markdown files, and all other input files needed for analysis and figure generation for the following manuscript:
 
-**Assessing the effects of warming and carbonate chemistry on marine microbes in the Gulf of Mexico through basin-scale DNA metabarcoding**<br/>
-*Sean R. Anderson, Katherine Silliman, Leticia Barbero, Fabian A. Gomez, Beth A. Stauffer, Astrid Schnetzer, Christopher R. Kelble, and Luke R. Thompson, (2024)*
+**Microbial community dynamics over large spatial and environmental gradients in a subtropical ocean basin**<br/>
+*Sean R. Anderson, Katherine Silliman, Leticia Barbero, Fabian A. Gomez, Beth A. Stauffer, Astrid Schnetzer, Christopher R. Kelble, and Luke R. Thompson, (2025)*
 
 * [Preprint](https://www.biorxiv.org/content/10.1101/2024.07.30.605667v1)
 
 ### 1. Summary
-Ocean acidification and warming threaten marine life, either directly or indirectly, which can lead to loss of biodiversity and negative impacts for marine ecosystems. The effects of carbonate chemistry parameters and temperature on diverse marine microbes remains unclear. Yet, it is important to consider microbes because they form the base of ocean food webs, mediate global carbon and nutrient cycles, and are potential indicators of environmental change. In large part, this disconnect is rooted in a lack of spatial sampling of microbes and environmental variables in many ocean basins, including the Gulf of Mexico (GOM). In this study, we collected DNA samples at the basin scale in the GOM as part of the fourth Gulf of Mexico Ecosystems and Carbon Cycle (GOMECC-4) cruise that sailed in the summer-fall of 2021. DNA samples were collected at 51 sites along 16 inshore-offshore transects and up to three depths per site that reflected the surface, deep chlorophyll maximum, and near bottom (481 total filters). DNA metabarcoding captured prokaryotes (16S V4-V5) and protists (18S V9) at previously unresolved spatial scales. Generalized linear models were used to reveal the effects of carbonate chemistry parameters, temperature, and other variables on group-specific relative abundance in the photic zone. Models supported prior physiological trends among certain microbes, like positive temperature effects on SAR11 and SAR86, as well as a negative response of *Prochlorococcus* to lower pH. New insights were observed for Syndiniales and Sagenista, ubiquitous protists that represent parasitic and herbivorous lifestyles. At the species level, picoeukaryotes like *Ostreococcus* sp. and *Emiliania huxleyi* were found to be indicator taxa of less buffered waters in the GOM at this time.
+Microbes form the foundation of ocean food webs, and are sensitive to changes in their surrounding environment. However, the effects of changing abiotic factors on diverse marine microbes remains unclear, in large part due to a lack of spatial sampling of microbes and environmental variables in many ocean basins, including the GOM. In this study, we collected DNA samples at the basin scale in the GOM as part of the fourth Gulf of Mexico and East Coast Carbon (GOMECC-4) cruise that sailed in the summer-fall of 2021. DNA samples were collected at 51 sites along 16 inshore-offshore transects and up to three depths per site that reflected the surface, deep chlorophyll maximum, and near bottom (481 total filters). DNA metabarcoding captured prokaryotes (16S V4-V5) and protists (18S V9) at previously unresolved spatial scales. Generalized additive models were used to reveal the effects of carbonate chemistry parameters, temperature, oxygen, salinity, and nutrients on group-specific log abundance in the photic zone. Model results for SAR11 and SAR86 indicated a positive association with temperaure and dissolved inorganic carbon, while models for major cyanobacterial genera (*Prochlorococcus* and *Synechococcus*) were differently influenced by nutrients, salinity, and pH that often were in line with expected ecological niches. Elsewhere, enigmatic protist parasites (Syndiniales) and grazers (Sagenista) exhibited non-linear associations with salinity, oxygen, nutrients, and temperature. At the sequence level, picoeukaryotes like *Ostreococcus* sp. and *Gephyrocapsa huxleyi* were found to be indicator taxa of less buffered waters in the GOM at this time. These results set the stage for future omics data collection in the GOM, with sustained sampling efforts being important to accurately predict microbial responses to ocean change.
 
 ### 2. Bioinformatics
 Code for 16S and 18S datasets are available in the `code` folder.
@@ -24,9 +24,9 @@ Code is available as markdown files for [16S](https://aomlomics.github.io/gomecc
 * QIIME 2 files uploaded to R using [qiime2R](https://github.com/jbisanz/qiime2R)
 * Hierarchical clustering of microbial composition to resolve spatial patterns
 * Population dynamics observed in each cluster with stacked bar plots, PCoA plots, and diversity plots (richness and Shannon index)
-* Generalized linear models (GLMs) constructed for major microbial groups (class level 18S; order level 16S) using relative abundances and non-collinear variables
+* Generalized additive models (GAMs) constructed for major microbial groups (class level 18S; order level 16S) using log abundances and non-collinear variables
 * Models focused on the photic zone to mitigate collinearity
-* Final GLMs applied to all GOMECC-4 sites to expand microbial distributions at the surface; plots made in [Ocean Data View](https://odv.awi.de/)
+* GAMs applied to all GOMECC-4 sites to expand microbial distributions at the surface; plots made in [Ocean Data View](https://odv.awi.de/)
 * ODV plots in the `odv-plots` folder.
 * Indicator analysis performed to reveal ASVs indicative of less buffered surface waters (via TA:DIC ratio) using [indicspecies](https://emf-creaf.github.io/indicspecies/)
 * All other input files necessary for analyses are in the `data-input` folder.
